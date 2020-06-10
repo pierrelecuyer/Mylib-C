@@ -1,0 +1,234 @@
+\documentclass[12pt]{article}
+
+\usepackage[table]{xcolor}
+%  \usepackage{crayola}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage[procnames]{listings}
+\usepackage{url}
+\usepackage{mybold}
+\usepackage{mycal}
+\usepackage{mymathbb}
+
+%  \input ../doc/myarticle.sty
+
+\topmargin=-0.5in\oddsidemargin=0pt\topskip=\baselineskip
+\headsep=0pt\headheight=0.4in
+\textwidth=6.6 true in\textheight=9.0 true in
+\parskip = 10pt
+\parindent = 0pt
+
+
+\lstloadlanguages{C}
+\lstset{language=C,
+float=tbhp,
+captionpos=t,
+frame=trbl,
+abovecaptionskip=0.2em,
+belowskip=0.3em,
+basicstyle=\footnotesize\ttfamily,
+stringstyle=\color{OliveGreen},
+commentstyle=\color{red},
+identifierstyle=\color{Bittersweet},
+basewidth={0.5em},
+showstringspaces=false,
+framerule=0.8pt,
+procnamestyle=\bfseries\color{blue},
+emphstyle=\bfseries\color{Cerulean},
+procnamekeys={class,extends,interface,implements}
+}
+
+\def\bs{{\tt\char'134}} 
+
+\def\red#1{{\color{red} #1}}
+\def\blue#1{{\color{blue} #1}}
+\def\green#1{{\color{green} #1}}
+\def\orange#1{{\color{orange} #1}}
+
+\newcommand\guisec[1]{\vspace{10pt}%
+  \noindent\hrulefill\hspace{10pt}{\bf #1}\hspace{10pt}\hrulefill
+  \vspace{10pt}\nopagebreak}
+
+\catcode`\@=11
+\def\inc#1{\@partswtrue\edef\@partlist{#1}}
+
+% Macros pour inserer des bouts de code (programmes).
+% Faire  \code ...  \endcode
+{\obeyspaces\gdef {\ }}
+\def\setverbatim{\def\par{\leavevmode\endgraf}
+            \parskip=0pt\parindent=0pt\obeylines\obeyspaces }
+\chardef\other=12
+\def\ttverbatim{\setverbatim\tt
+       \catcode`\{=\other \catcode`\}=\other \catcode`\_=\other
+       \catcode`\^=\other \catcode`\$=\other \catcode`\%=\other
+       \catcode`\#=\other \catcode`\&=\other \baselineskip=11pt
+       }
+    % Reproduit tel quel ce qui est ecrit, en caracteres \tt.
+    % On doit faire  \begingroup\ttverbatim   ....  \endgroup
+\def\smallttverbatim{\ttverbatim\small\tt}
+\def\code {\vfil\vfilneg\vbox\bgroup\ttverbatim}
+\def\longcode {\vfil\vfilneg\bgroup\ttverbatim}
+\def\smallc {\small\tt\baselineskip=9.5pt}
+\def\footc {\footnotesize\tt\baselineskip=9.0pt}
+\def\smallcode {\code\smallc}
+\let\endcode=\egroup
+\let\vcode=\code
+\let\endvcode=\egroup
+
+%  Definition d'un module ou d'une classe.
+\def\ps@nomark {\def\leftmark{} \def\rightmark{}}
+\def\defmodule#1 {\addcontentsline{toc}{subsection}{#1} \markboth{#1}{#1}
+   \centerline {\LARGE\bf #1}\bigskip \thispagestyle{nomark}}
+\def\defclass#1 {\addcontentsline{toc}{subsection}{#1} \markboth{#1}{#1}
+   \centerline {\LARGE\bf #1}\bigskip \thispagestyle{nomark}}
+%  Lorsqu'on veut cacher certaines choses a l'usager, faire  \hide ... \endhide
+\newif\iffull\fullfalse
+\def\hide{\iffull}
+\let\endhide=\fi
+
+\def\parup{\nobreak\vskip -2pt\nobreak}
+
+\def\tab{\small\dimen9=\parindent\parindent=0pt%
+   \advance\leftskip by 1.5em\parup}
+\def\tabb{\small\dimen9=\parindent\parindent=0pt%
+   \advance\leftskip by 3.0em\parup}
+\def\tabbb{\small\dimen9=\parindent\parindent=0pt%
+   \advance\leftskip by 4.5em\parup}
+\def\endtab{\vskip 0.01pt\advance\leftskip by -1.5em\normalsize%
+   \parindent=\dimen9}
+\def\endtabb{\vskip 0.01pt\advance\leftskip by -3.0em\normalsize%
+   \parindent=\dimen9}
+\def\endtabbb{\vskip 0.01pt\advance\leftskip by -4.5em\normalsize%
+   \parindent=\dimen9}
+
+% Pour mettre quelque chose dans une boite double.
+\def\boxit#1{\vbox{\hrule height1pt
+                   \hbox{\vrule width1pt\kern3pt
+                         \vbox{\kern3pt#1\kern3pt
+                              }\kern3pt\vrule width1pt
+                        }\hrule height1pt }}
+\def\boxr#1{\hfil\vbox{\hrule height1pt
+                       \hbox{\vrule width1pt\kern3pt
+                              \vbox{#1}\hfil
+                              \kern3pt\vrule width1pt
+                             }\hrule height1pt }}
+
+% Synonymes plus courts pour  \begin{equation}, \begin{eqnarray}, etc.
+\def\eq{\equation}  \def\endeq{\endequation}
+\def\eqs{\eqnarray} \def\endeqs{\endeqnarray}
+\def\eqsn{\begin {eqnarray*}} \def\endeqsn{\end{eqnarray*}}
+
+% Proof avec boite alignee a droite a la fin.
+\newenvironment{myproof}{{\em Proof.}}{\hspace*{\fill}$\Box$}
+% \newenvironment{proof}{{\em Proof.}}{\hspace*{\fill}$\Box$}
+
+% Macros (avec switch) pour faire apparaitre les noms des labels dans les eqs.
+% Utiliser \eqlabel au lieu de \label.  Doit laisser un espace apres le }
+% Pour que les etiquettes apparaissent, faire \seeeqlabelstrue  au debut.
+\newif\ifseeeqlabels\seeeqlabelsfalse
+\newbox\eqlab \setbox\eqlab=\hbox {}
+\def\eqlabel#1 {\global\setbox\eqlab=\hbox
+   {\ifseeeqlabels {\rm (#1)} \else {} \fi } \label{#1} }
+\def\@eqnnum {{\rm \box\eqlab \setbox\eqlab=\hbox {} (\theequation)}}
+
+% Comme ci-haut pour \eqlabel, mais pour les noms des autres labels
+% (Theoremes, Propositions, etc.).
+% Utiliser \vislabel au lieu de \label.
+% Pour que les etiquettes apparaissent, faire \seevislabelstrue  au debut.
+\newif\ifseevislabels\seevislabelsfalse
+\def\vislabel#1 {\ifseevislabels {\ \em (#1).\ } \else {} \fi \label{#1} }
+
+% Pour mettre des remarques temporaires.
+\newif\ifREM\REMfalse
+\def\REM#1 {\ifREM  \begin{quote} \small\em #1 \end{quote} \else {\null} \fi }
+
+% Pour avoir "running head" et no. de page en haut de page, faire  \mytwoheads
+% Si on veut la date en haut de chaque page, on fait aussi  \dateheadtrue
+\newif\ifdatehead\dateheadfalse
+\def\mytwoheads {\pagestyle{headings}
+  \topmargin=-0.4in\headheight=0.2in\headsep=0.4in
+  \oddsidemargin=0.2in\evensidemargin=0in
+  \def\@evenhead {{\large\bf\thepage}\quad\leftmark\hfil
+    \ifdatehead\small\it\today\fi}%         Left heading
+  \def\@oddhead {\ifdatehead{\small\it\kern-1em\today}\fi\hfil
+    \rightmark\quad\large\bf\thepage}}%     Right heading
+
+\catcode`\@=12
+
+
+\newif\ifnotes\notestrue
+%\notesfalse             %%  Uncomment this line to hide footnotes.  <----
+\def\boxnote#1#2{\ifnotes\fbox{\footnote{\ }}\ \footnotetext{ From #1: #2}\fi}
+\def\pierre#1{\boxnote{Pierre}{\color{red}#1}}
+\def\mpierre#1{{\color{red} #1}}
+\def\mp#1{{\color{red} #1}}
+\def\hpierre#1{}
+\def\hrichard#1{}
+\def\richard#1 {\fbox {\footnote {\ }}\ \footnotetext { From Richard: #1}}
+
+\def\hiro#1{\boxnote{Hiroshi}{\color{blue}#1}}   % Adds a footnote from Hiroshi
+\newcommand{\mhiro}[1]{{\color{blue}#1}}         % Adds text in the color oh Hiroshi
+\def\hhiro#1{}                                   % This is a way to comment out an addition or footnote.
+
+\def\perhaps#1{{\color{gray} #1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\begin{titlepage}
+
+\null 
+\begin {flushright} \it Last update: \today \end {flushright}
+
+\vfill
+{ \centerline {\Large\bf MyLib-C }\bigskip\bigskip
+  \centerline {\large\bf A Small Collection of Basic Utilities in C }}
+\vfill
+
+\centerline {{\bf Pierre L'Ecuyer and Richard Simard}}
+\medskip
+\centerline {D\'epartement d'Informatique et de Recherche op\'erationnelle}
+\centerline {Universit\'e de Montr\'eal}
+
+\vfill
+% \centerline {\large\bf Note}
+\medskip
+
+This document describes a set of basic utility functions implemented in the 
+C language around the years 1995--2000, to be used in the software developed in the
+\emph{Stochastic Simulation Laboratory} under the supervision of Pierre L'Ecuyer.
+Many of these tools were originally implemented earlier in the Modula-2 language,
+and have been reimplemented in C to facilitate the code translation of old 
+software from Modula-2 to C.  Some of these functions may have counterparts in
+the more recent standard C libraries, but we kept them to avoid rewriting our code.
+They are used in particular in the TestU01 and F2linearUnif libraries.
+
+Contributors:  Pierre L'Ecuyer, Richard Simard, Fran\c cois Panneton,
+Francis Picard, Jean-S\'ebastien S\'en\'ecal, Simon-Olivier Laperri\`ere.
+
+\vfill
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+
+\include{gdef}
+\include{util}
+\include{num}
+\include{num2}
+\include{mystr}
+\include{addstr}
+\include{tables}
+\include{bitset}
+\include{bitvector}
+\include{bitmatrix}
+\include{chrono}
+\include{tcode}
+
+\bibliographystyle {plain}
+\bibliography{stat,random,simul,math,ift}
+\end{document}

@@ -1,0 +1,170 @@
+\defmodule {tables}
+
+This module provides an implementation of variable-sized arrays (matrices),
+and procedures to manipulate them.
+The advantage is that the size of the array needs not be known
+at compile time; it can be specified only during the program execution.
+There are also procedures to sort arrays,  to
+print  arrays in different formats,
+and a few tools for hashing tables.
+The functions {\tt tables\_CreateMatrix...} and
+{\tt tables\_DeleteMatrix...} manage memory allocation for
+these dynamic matrices.
+
+As an illustration, the following piece of code declares and creates
+a $100\times 500$ table of floating point numbers, assigns a value
+to one table entry, and eventually deletes the table:
+  \begin{verse}{\tt
+    double ** T;\\
+    T = tables\_CreateMatrix\_double (100, 500);\\
+    T[3][7] = 1.234;\\
+    \dots \\
+    tables\_DeleteMatrix\_double (\&T);
+  }\end{verse}
+
+%%%%%%%%%%%%%
+\bigskip\hrule
+
+\code\hide
+/* tables.h for ANSI C */
+#ifndef TABLES_H
+#define TABLES_H
+\endhide
+#include "gdef.h"
+\endcode
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Printing styles}
+\code
+
+typedef enum {
+   tables_Plain,
+   tables_Mathematica,
+   tables_Matlab
+   } tables_StyleType;
+\endcode
+  \tab Printing styles for matrices.
+  \endtab
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Functions to create, delete, sort, and print tables}
+\code
+
+long ** tables_CreateMatrix_long  (int m, int n);
+unsigned long ** tables_CreateMatrix_ulong (int m, int n);
+int64_t ** tables_CreateMatrix_int64  (int m, int n);
+uint64_t long ** tables_CreateMatrix_uint64 (int m, int n);
+double ** tables_CreateMatrix_double  (int m, int n);
+\endcode
+  \tab Allocates contiguous memory for a dynamic 
+  matrix of {\tt m} rows and {\tt n} columns. Returns the base
+  address of the allocated space.
+  \endtab
+\code
+
+void tables_DeleteMatrix_long  (long *** mat);
+void tables_DeleteMatrix_ulong (unsigned long *** mat);
+void tables_DeleteMatrix_int64  (int64_t *** mat);
+void tables_DeleteMatrix_uint64 (uint64_t *** mat);
+void tables_DeleteMatrix_double  (double *** mat);
+\endcode
+  \tab Releases the memory used by the matrix {\tt mat}
+  (see {\tt tables\_CreateMatrix}) passed by reference; i.e., using the {\tt \&} symbol. 
+  Then, {\tt mat} is set to {\tt NULL}.
+  \endtab
+\code
+
+void tables_CopyTab_long (long mat1[], long mat2[], int n1, int n2);
+void tables_CopyTab_int64 (long mat1[], long mat2[], int n1, int n2);
+void tables_CopyTab_uint64 (long mat1[], long mat2[], int n1, int n2);
+void tables_CopyTab_double (double mat1[], double mat2[], int n1, int n2);
+\endcode
+  \tab Copies {\tt mat1[n1..n2]} in {\tt mat2[n1..n2]}.
+	\pierre{Oups... I think in C, the copy order is usually the other way!  Check this. }
+  \endtab
+\code
+
+void tables_QuickSort_long (long mat[], int n1, int n2);
+void tables_QuickSort_int64 (int64_t mat[], int n1, int n2);
+void tables_QuickSort_uint64 (uint64_t mat[], int n1, int n2);
+void tables_QuickSort_double (double mat[], int n1, int n2);
+\endcode
+ \tab Sort the tables {\tt mat[n1..n2]} in increasing order.
+ \endtab
+\code
+
+void tables_WriteTab_long (long mat[], int n1, int n2, int k, int p, 
+                           char desc[]);
+void tables_WriteTab_int64 (int64_t mat[], int n1, int n2, int k, int p, 
+                            char desc[]);
+void tables_WriteTab_uint64 (uint64_t mat[], int n1, int n2, int k, int p, 
+                             char desc[]);
+\endcode
+ \tab  Write the elements {\tt n1} to {\tt n2} of table {\tt mat},
+  {\tt k} per line, {\tt p} positions per element.
+  If  {\tt k} = 1, the index will also be printed. {\tt desc}
+  contains a description of the table.
+ \endtab
+\code
+
+void tables_WriteTab_double (double mat[], int n1, int n2, int k, 
+                             int p1, int p2, int p3, char desc[]);
+\endcode
+ \tab  Writes the elements {\tt n1} to {\tt n2} of table {\tt mat},
+  {\tt k} per line, with at least {\tt p1} positions per element,
+  {\tt p2} digits after the decimal point, and at least  {\tt p3} significant digits.
+   If {\tt k} = 1, the index
+  will also be printed. {\tt desc} contains a description of the table.
+ \endtab\code
+
+void tables_WriteSubmatrix_double (double** mat, int i1, int i2, int j1, int j2,
+                             int w, int p, tables_StyleType style, char name[]);
+\endcode
+ \tab Writes the submatrix with lines 
+   {\tt i1} $\le i \le $ {\tt i2} and columns 
+   {\tt j1} $\le j \le $ {\tt j2} of the matrix {\tt mat} with format
+   {\tt style}. The elements are printed in {\tt w}
+   positions with a precision of {\tt p} digits. {\tt name} is
+   an identifier for the submatrix.
+  
+   For {\tt Matlab}, the file containing the printed submatrix should have 
+	 the extension {\tt .m}.
+   For example, if it is named {\tt poil.m}, it will be accessed by the
+   simple call {\tt poil} in {\tt Matlab}.
+   For {\tt Mathematica}, if the file is named {\tt poil},
+   it will be read using {\tt << poil;}.
+ \endtab
+\code
+
+void tables_WriteSubmatrix_long (long** mat, int i1, int i2, int j1, int j2, 
+                                 int w, tables_StyleType style, char name[]);
+void tables_WriteSubmatrix_int64 (int64** mat, int i1, int i2, int j1, int j2,
+                                  int w, tables_StyleType style, char name[]);
+void tables_WriteSubmatrix_uint64 (uint64** mat, int i1, int i2, int j1, int j2, 
+                                   int w, tables_StyleType style, char name[]);
+\endcode
+ \tab Similar to {\tt tables\_WriteMatrix\_double}.
+ \endtab
+\code
+
+int64_t tables_HashPrime (int64_t n, double load);
+\endcode
+  \tab Returns a prime number $p$ to be used as the size 
+   (the number of elements) of a hashing table.
+   $p$ will be such that the load factor $n/p$ do not exceed {\tt load}.
+   If {\tt load} is small, an important part of the table will be unused; that
+   will accelerate searches and insertions.
+   This function uses a small sequence of prime numbers; the real load factor
+   may be significantly smaller than {\tt load} because only a limited
+   number of prime numbers are in the table. In case of failure, returns $-1$.
+ \endtab
+\code
+
+long tables_HashPrime32 (long n, double load);
+\endcode
+  \tab Same as \texttt{tables\_HashPrime}, but with 32-bit integers.
+ \endtab
+\code\hide
+#endif
+\endhide
+\endcode

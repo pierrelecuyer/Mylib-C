@@ -1,0 +1,177 @@
+\defmodule {bitset}
+
+This module defines sets of bits and useful operations for such sets.
+Some of these operations are implemented as macros.
+Each bit set is stored as a 64-bit unsigned integer, whose bits are simply interpreted
+as indicators of which elements belong to the set.
+The bits are numbered from 0 to 63, and 
+\emph{bit 0 is the least significant bit} of this word,
+which means that the bits are numbered from right to left.
+\hpierre{Here the bits are numbered from the right, whereas they are 
+  numbered from the left in \texttt{bitvectors}.}%
+%	Are there bitsets like this in other libraries?}
+If bit $j$ is 1, then element $j$ is a member of the set, otherwise it is not.
+Other operations not described here can also be applied directly
+to the \texttt{uint64\_t} variable. 
+
+
+\code\hide
+/* bitset.h  for ANSI C */
+#ifndef BITSET_H
+#define BITSET_H
+#include "gdef.h"
+\endhide\endcode
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Constants}
+\code
+
+const uint64_t bitset_ONE = 1;
+const uint64_t bitset_ALLONES = 18446744073709551615;   
+\endcode
+\tab
+  The two constants 1 and $2^{64}-1$ (a bitset with all ones).
+\endtab
+\iffalse  %%%%
+\code
+
+extern uint64_t bitset_MASK1[];
+\endcode
+ \tab {\tt bitset\_MASK1[j]} has only \emph{bit} $j$ set to 1 and all other 
+  bits set to 0. 
+  \pierre{Not sure if it is worthwhile to store and retrieve all these constants. 
+	  See \url{http://c-faq.com/misc/bitsets.html} and 
+    \url{https://github.com/iplinux/x11proto-trap/blob/master/xtrapbits.h}
+		for alternatives.}
+ \endtab
+\code
+
+extern uint64_t bitset_MASK[];
+\endcode
+ \tab {\tt bitset\_MASK[j]} has all \emph{the first $j$ bits} set to 1 and all other 
+  bits set to 0.  
+ \endtab
+\fi  %%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Types}
+\code
+
+typedef uint64_t bitset_BitSet;
+\endcode
+ \tab  A set of bits. The bits are numbered starting from 0 for the least significant bit. 
+ \endtab
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Macros}
+
+\code
+
+#define bitset_Mask1(b) (bitset_ONE << b)
+\endcode
+ \tab Gives a bit set with only bit $b$ set to 1 and all other bits set to 0. 
+ \endtab
+\code
+
+#define bitset_MaskLow(b) (bitset_ALLONES >> (64-b))
+\endcode
+ \tab Gives a bit set with all \emph{the lowest (rightmost) $b$ bits} set to 1 
+  and all other bits set to 0.  
+ \endtab
+\code
+
+#define bitset_SetBit(s, b) ((s) |= (bitset_Mask1(b)));
+\endcode
+ \tab  Sets bit {\tt b} in set  {\tt s}  to 1.
+ \endtab
+\code
+
+#define bitset_ClearBit(s, b) ((s) &= ~(bitset_Mask1(b)))
+\endcode
+ \tab  Sets bit {\tt b} in set  {\tt s}  to 0.
+ \endtab
+\code
+
+#define bitset_FlipBit(s, b) ((s) ^= (bitset_Mask1(b)))
+\endcode
+ \tab  Flips bit {\tt b} in set {\tt s};  thus,
+        $0 \rightarrow 1$ and $1 \rightarrow 0$.
+ \endtab
+\code
+
+#define bitset_GetBit(s, b)  ((s) & (bitset_Mask1(b)) ? 1 : 0)
+\endcode
+ \tab  Returns the value of bit {\tt b} in set {\tt s} (0 or 1).
+ \endtab
+\code
+
+#define bitset_RotateLeft(s, r)  ((s << r) | (s >> (64 - r)))
+\endcode
+ \tab  Rotates the bit set {\tt s} by {\tt r} positions to the left.
+ \endtab
+\code
+
+#define bitset_RotateRight(s, r)  ((s >> r) | (s << (64 - r)))
+\endcode
+ \tab  Rotates the bit set {\tt s} by {\tt r} positions to the right.
+\endtab
+
+\noindent
+{\tt\#define bitset\_RotateLeftLocal(s, b, r)}  ...
+
+\hide\code
+#define bitset_RotateLeftLocal(s, b, r) do { \
+   uint64_t temp = (s) >> ((b) - (r)); \
+   (s) <<= (r);   (s) |= temp;   (s) &= bitset_MaskLow(b); \
+   } while (0)
+\endcode\endhide
+\tab  Rotates the {\tt b} lowest (least significant) bits of 
+  the set {\tt s} by {\tt r} positions to the left.
+  Here, {\tt s} is considered as a {\tt b}-bit number kept
+  in the least significant bits of {\tt s}.
+ \endtab
+
+\noindent
+{\tt\#define bitset\_RotateRightLocal(s, b, r)}  ... 
+
+\hide\code
+#define bitset_RotateRightLocal(s, b, r) do { \
+   uint64_t temp = (s) >> (r); \
+   (s) <<= ((b) - (r));   (s) |= temp;   (s) &= bitset_MaskLow(b); \
+   } while (0)
+\endcode\endhide
+ \tab  Rotates the {\tt b} lowest (least significant) bits of 
+  the set {\tt s} by {\tt r} positions to the right.
+  Here, {\tt s} is considered as a {\tt b}-bit number kept
+  in the least significant bits of {\tt s}.
+ \endtab
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\guisec{Prototypes}
+\code
+
+bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b);
+\endcode
+\tab Reverses the order of the {\tt b} least significant bits of {\tt z}.
+  Thus, if {\tt b}${}=4$ and {\tt z}${} = \dots 0011$, the returned value is $\dots 1100$.
+	\pierre{The current implementation of this function is simple and very inefficient.
+	 More efficient methods use lookup tables.   
+	 See \url{https://graphics.stanford.edu/~seander/bithacks.html}.
+	 I think this is implemented somewhere in TestU01.}
+ \endtab
+\code
+
+void bitset_Write (char *desc, bitset_BitSet z, int b);
+\endcode
+  \tab  \pierre{Should return the string, not print it.  Then we can do whatever
+	 we want with the string.}
+  Prints the string {\tt desc} (which may be empty), then writes the {\tt b}
+	least significant bits of {\tt z} considered as an unsigned binary number.
+  This corresponds to the {\tt b} first elements of {\tt z}.
+ \endtab
+\code\hide
+#endif
+\endhide\endcode
