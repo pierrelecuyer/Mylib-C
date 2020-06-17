@@ -1,34 +1,3 @@
-/*************************************************************************\
- *
- * Package:        MyLib
- * File:           bitset.c
- * Environment:    ANSI C
- *
- * Copyright (c) 2002 Pierre L'Ecuyer, DIRO, Université de Montréal.
- * e-mail: lecuyer@iro.umontreal.ca
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted without a fee for private, research,
- * academic, or other non-commercial purposes.
- * Any use of this software in a commercial environment requires a
- * written licence from the copyright owner.
- *
- * Any changes made to this package must be clearly identified as such.
- *
- * In scientific publications which used this software, a reference to it
- * would be appreciated.
- *
- * Redistributions of source code must retain this copyright notice
- * and the following disclaimer.
- *
- * THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
-\*************************************************************************/
-
-
 #include "bitset.h"
 #include "util.h"
 #include <stdio.h>
@@ -180,21 +149,21 @@ uint64_t bitset_MASK[] = {
 /*--------------------------------------------------------------------------*/
 
 
-void bitset_WriteSet (char *desc, bitset_BitSet S, int n)
+void bitset_Write (char *desc, bitset_BitSet z, int b)
 {
    int i;
    bitset_BitSet mask;
-   
-   util_Assert (n > 0, "bitset_WriteSet:   s <= 0");
-   if ((unsigned) n > CHAR_BIT * sizeof (bitset_BitSet)) {
-      n = CHAR_BIT * sizeof (bitset_BitSet);
-      printf ("********** bitset_WriteSet:   only %d bits in a BitSet\n\n", n);
+
+   util_Assert (b > 0, "bitset_WriteSet:   s <= 0");
+   if ((unsigned) b > CHAR_BIT * sizeof (bitset_BitSet)) {
+      b = CHAR_BIT * sizeof (bitset_BitSet);
+      printf ("********** bitset_WriteSet:   only %d bits in a BitSet\n\n", b);
    }
    if (desc != NULL && strlen (desc) > 0)
       printf ("%s", desc);
-   mask = (bitset_BitSet) 1 << (n - 1);
-   for (i = 0; i < n; i++) {
-      if (S & mask)
+   mask = (bitset_BitSet) 1 << (b - 1);
+   for (i = 0; i < b; i++) {
+      if (z & mask)
          printf ("1");
       else
          printf ("0");
@@ -205,15 +174,14 @@ void bitset_WriteSet (char *desc, bitset_BitSet S, int n)
 
 /*--------------------------------------------------------------------------*/
 
-bitset_BitSet bitset_Reverse (bitset_BitSet Z, int s)
+bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b)
 {
    unsigned long res = 0;
    int i;
 
-   for (i = 0; i < s; i++) {
-      res = (res << 1) | (Z & 1);
-      Z >>= 1;
+   for (i = 0; i < b; i++) {
+      res = (res << 1) | (z & 1);
+      z >>= 1;
    }
    return res;
 }
-

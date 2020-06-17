@@ -1,37 +1,3 @@
-/*************************************************************************\
- *
- * Package:        MyLib
- * File:           gdef.c
- * Environment:    ANSI C
- *
- * Copyright (c) 2002 Pierre L'Ecuyer, DIRO, Université de Montréal.
- * e-mail: lecuyer@iro.umontreal.ca
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted without a fee for private, research,
- * academic, or other non-commercial purposes.
- * Any use of this software in a commercial environment requires a
- * written licence from the copyright owner.
- *
- * Any changes made to this package must be clearly identified as such.
- *
- * In scientific publications which used this software, a reference to it
- * would be appreciated.
- *
- * Redistributions of source code must retain this copyright notice
- * and the following disclaimer.
- *
- * THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
-\*************************************************************************/
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "gdef.h"
 #ifdef HAVE_WINDOWS_H
    #include <windows.h>
@@ -50,7 +16,6 @@
 #endif
 
 #endif
-
 
 
 void gdef_GetHostName (char machine[], int n)
@@ -76,14 +41,14 @@ void gdef_GetHostName (char machine[], int n)
       if (n - j > 0)
          strncat (machine, Z.sysname, (size_t) (n - j));
       machine[n - 1] = '\0';
-      return;   
+      return;
    }
 
 #else
 #ifdef HAVE_UNISTD_H
    gethostname (machine, (size_t) n);
    machine[n - 1] = '\0';
-   return;   
+   return;
 
 #else
    name = getenv ("HOST");

@@ -1,33 +1,3 @@
-/*************************************************************************\
- *
- * Package:        MyLib
- * File:           util.c
- * Environment:    ANSI C
- *
- * Copyright (c) 2002 Pierre L'Ecuyer, DIRO, Université de Montréal.
- * e-mail: lecuyer@iro.umontreal.ca
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted without a fee for private, research,
- * academic, or other non-commercial purposes.
- * Any use of this software in a commercial environment requires a
- * written licence from the copyright owner.
- *
- * Any changes made to this package must be clearly identified as such.
- *
- * In scientific publications which used this software, a reference to it
- * would be appreciated.
- *
- * Redistributions of source code must retain this copyright notice
- * and the following disclaimer.
- *
- * THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
-\*************************************************************************/
-
 #include "util.h"
 
 #include <stdio.h>
@@ -157,7 +127,7 @@ int util_GetLine (FILE *infile, char *Line, char c)
      /* Find first non-white character in Line */
      j = strspn (Line, " \t\r\f\v");
      /* Discard blank lines and lines whose first non-white character is c */
-     if (Line[j] == '\n' ||  Line[j] == c) 
+     if (Line[j] == '\n' ||  Line[j] == c)
         continue;
      else {
         char *p;

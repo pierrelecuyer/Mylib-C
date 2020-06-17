@@ -5,12 +5,10 @@ The bit vectors are stored in arrays of 64-bit unsigned integers, and their leng
 is always rounded up to the nearest multiple of 64.
 The bit indexation goes from left to right (which is unusual) and starts at 0.
 This left-to-right ordering is because these vectors are used to construct
-binary matrices (see \texttt{bitmatrix}), 
+binary matrices (see \texttt{bitmatrix}),
 for which the elements are usually ordered from left to right.
 If the required length is not a multiple of 64, the unused bits are simply set to 0.
-\hpierre{In Boost, they start from the least significant bit of the integer.}
-\pierre{We may add functions to compute the Hamming weight (number of ones)
-  and perhaps other tools commonly available for bit vectors.}
+
 
 \bigskip\hrule
 
@@ -31,19 +29,19 @@ Uses 64-bit words.   \pierre{Probably not needed, can be hardcoded to 64.}
 \fi  %%%
 \code
 
-typedef struct{        
+typedef struct{
    int n;
    uint64_t *vect;
 } bitvector_vector;
 \endcode
 \tab
-This structure contains a bit vector of 64\texttt{n} bits, 
-stored in {\tt n} blocks of 64 bits.  
+This structure contains a bit vector of 64\texttt{n} bits,
+stored in {\tt n} blocks of 64 bits.
 \hpierre{Do we also want to memorize the number of bits in the set?
   It may not be a multiple of 64.  But we also do not want to slow things down,
 	so perhaps we may assume that the unused bits are always set to 0.
-	Check what they do in Boost.} 
-Storage space for the {\tt bitvector\_vector} should be allocated via 
+	Check what they do in Boost.}
+Storage space for the {\tt bitvector\_vector} should be allocated via
 {\tt bitvector\_allocate()}.
 \endtab
 \code
@@ -65,6 +63,55 @@ Releases the memory space used by {\tt bitvector\_vector} pointed by {\tt v}.
  \endtab
 \code
 
+void bitvector_display (bitvector_vector *v, int b);
+\endcode
+ \tab
+Prints the first {\tt b} bits of the bit vector {\tt v}.
+ \endtab
+\code
+
+void bitvector_copy (bitvector_vector *v1, bitvector_vector *v2);
+  \endcode
+ \tab
+Copies the entire contents of {\tt v2} into {\tt v1}.
+ \endtab
+\code
+
+void bitvector_copyPart (bitvector_vector *v1, bitvector_vector *v2, int b);
+\endcode
+ \tab
+Copies the lowest {\tt b} bits of {\tt v2} into {\tt v1}.
+ \endtab
+\code
+
+void bitvector_clearVector (bitvector_vector *v);
+\endcode
+ \tab
+Resets all the bits of {\tt v} to zero.
+ \endtab
+\code
+
+void bitvector_setBit (bitvector_vector *v, int b);
+\endcode
+ \tab
+Sets bit {\tt b} of {\tt v} to 1.
+ \endtab
+\code
+
+int bitvector_getBit (bitvector_vector *v, int b);
+\endcode
+ \tab
+Returns the value of the {\tt b}-th bit of {\tt v}.
+ \endtab
+\code
+
+void bitvector_clearBit (bitvector_vector *v, int b);
+\endcode
+ \tab
+Sets bit {\tt b} of {\tt v} to 0.
+ \endtab
+\code
+
 void bitvector_canonical (bitvector_vector *v, int t);
 \endcode
  \tab
@@ -80,48 +127,6 @@ Sets {\tt v} to the bit vector $(1, 1, 1, 1,\dots , 1)$.
  \endtab
 \code
 
-void bitvector_setMaskLow (bitvector_vector *v, int t);
-\endcode
- \tab
-Fills {\tt v} with {\tt t} ones followed by zeros.
- \endtab
-\code
-
-void bitvector_setInvMaskLow (bitvector_vector *v, int t);
-\endcode
- \tab
-Fills {\tt v} with {\tt t} zeros followed by ones.
- \endtab
-\code
-
-void bitvector_setBit (bitvector_vector *v, int b);           
-\endcode
- \tab
-Sets bit {\tt b} of {\tt v} to 1.
-\endtab
-\code
-
-void bitvector_clearBit (bitvector_vector *v, int b);           
-\endcode
- \tab
-Sets bit {\tt b} of {\tt v} to 0.
-\endtab
-\code
-
-void bitvector_clearVector (bitvector_vector *v);
-\endcode                                
- \tab
-Resets all the bits of {\tt v} to zero.
- \endtab
-\code
-
-int bitvector_getGit (bitvector_vector *v, int b);                     
-\endcode
- \tab
-Returns the value of the {\tt b}-th bit of {\tt v}.
-\endtab
-\code
-
 lebool bitvector_isZero (bitvector_vector *v);
 \endcode
  \tab
@@ -129,10 +134,10 @@ Returns {\tt TRUE} if {\tt v} is the zero vector.  Returns {\tt FALSE} otherwise
 \endtab
 \code
 
-lebool bitvector_areEqual (bitvector_vector *v1, bitvector_vector *v2); 
+lebool bitvector_areEqual (bitvector_vector *v1, bitvector_vector *v2);
 \endcode
 \tab
-Returns {\tt TRUE} if the bit vectors {\tt v1} and {\tt v2} are the same, 
+Returns {\tt TRUE} if the bit vectors {\tt v1} and {\tt v2} are the same,
 and {\tt FALSE} otherwise.
 \endtab
 \code
@@ -140,22 +145,8 @@ and {\tt FALSE} otherwise.
 lebool bitvector_haveCommonBit (bitvector_vector *v1, bitvector_vector *v2);
 \endcode
  \tab
-Returns {\tt TRUE} if at least one bit set to 1 in {\tt ds1} is also set to 1 in {\tt ds2}
+Returns {\tt TRUE} if at least one bit set to 1 in {\tt v1} is also set to 1 in {\tt v2}
 (they have at least one common bit).  Returns {\tt FALSE} otherwise.
- \endtab
-\code
-
-void bitvector_copy (bitvector_vector *v1, bitvector_vector *v2);
-  \endcode
- \tab
-Copies the entire contents of {\tt v2} into {\tt v1}. 
- \endtab
-\code 
-
-void bitvector_copyPart (bitvector_vector *v1, bitvector_vector *v2, int b);
-\endcode
- \tab
-Copies the lowest {\tt b} bits of {\tt v2} into {\tt v1}.
  \endtab
 \code
 
@@ -167,11 +158,19 @@ and puts the result in \texttt{v1}.
 \endtab
 \code
 
-void bitvector_xor3 (bitvector_vector *v1, bitvector_vector *v2, 
+void bitvector_xor3 (bitvector_vector *v1, bitvector_vector *v2,
                      bitvector_vector *v3, bitvector_vector *v4);
 \endcode
  \tab
 Performs a bitwise exclusive-or of the contents of \texttt{v2}, \texttt{v3}, and \texttt{v4},
+and puts the result in \texttt{v1}.
+ \endtab
+\code
+
+void bitvector_xorSelf (bitvector_vector *v1, bitvector_vector *v2);
+\endcode
+ \tab
+Performs a bitwise exclusive-or of the contents of \texttt{v1} and \texttt{v2},
 and puts the result in \texttt{v1}.
  \endtab
 \code
@@ -195,7 +194,7 @@ and puts the result in \texttt{v1}.
 void bitvector_andMaskLow (bitvector_vector *v1, bitvector_vector *v2, int t);
 \endcode
  \tab
-Applies the mask comprised of {\tt t} ones followed by zeros to the bit vector 
+Applies the mask comprised of {\tt t} ones followed by zeros to the bit vector
 {\tt v2} and puts the result in {\tt v1}.
 \endtab
 \code
@@ -203,23 +202,15 @@ Applies the mask comprised of {\tt t} ones followed by zeros to the bit vector
 void bitvector_andInvMaskLow (bitvector_vector *v1, bitvector_vector *v2, int t);
 \endcode
  \tab
-Applies the mask comprised of {\tt t} zeros followed by ones to the bit vector 
+Applies the mask comprised of {\tt t} zeros followed by ones to the bit vector
 {\tt v2} and puts the result in {\tt v1}.
  \endtab
 \code
 
-void bitvector_xorSelf (bitvector_vector *v1, bitvector_vector *v2);
+void bitvector_leftShift (bitvector_vector *v1, bitvector_vector *v2, int b);
 \endcode
  \tab
-Performs a bitwise exclusive-or of the contents of \texttt{v1} and \texttt{v2}, 
-and puts the result in \texttt{v1}.
- \endtab
-\code
-
-void bitvector_leftShift (bitvector_vector *v1, bitvector_vector *v2, int b);    
-\endcode
- \tab
-Performs a left shift of \texttt{v2} by \texttt{b} bits 
+Performs a left shift of \texttt{v2} by \texttt{b} bits
 and puts the result in \texttt{v1}.
  \endtab
 \code
@@ -227,7 +218,7 @@ and puts the result in \texttt{v1}.
 void bitvector_rightShift (bitvector_vector *v1, bitvector_vector *v2, int b);
 \endcode
  \tab
-Performs a right shift of \texttt{v2} by \texttt{b} bits 
+Performs a right shift of \texttt{v2} by \texttt{b} bits
 and puts the result in \texttt{v1}.
  \endtab
 \code
@@ -235,7 +226,7 @@ and puts the result in \texttt{v1}.
 void bitvector_leftShiftSelf (bitvector_vector *v, int b);
 \endcode
  \tab
-Performs a left shift of \texttt{v} by \texttt{b} bits 
+Performs a left shift of \texttt{v} by \texttt{b} bits
 and puts the result in \texttt{v}.
  \endtab
 \code
@@ -251,7 +242,7 @@ and puts the result in \texttt{v}.
 void bitvector_rightShiftSelf (bitvector_vector *v, int b);
 \endcode
  \tab
-Performs a right shift of \texttt{v} by \texttt{b} bits 
+Performs a right shift of \texttt{v} by \texttt{b} bits
 and puts the result in \texttt{v}.
  \endtab
 \code
@@ -263,24 +254,24 @@ Flips (or toggle) the values of all the bits of {\tt v} (exchange 0 for 1, and v
  \endtab
 \code
 
-string bitvector_display (bitvector_vector *v, int b);
+void bitvector_setMaskLow (bitvector_vector *v, int t);
 \endcode
  \tab
-Returns a character string that contains the first {\tt b} bits of the bit vector {\tt v}.
- \endtab\code
+Fills {\tt v} with {\tt t} ones followed by zeros.
+ \endtab
+\code
 
-void bitvector_displayMathematica (bitvector_vector *b, int v);
+void bitvector_setInvMaskLow (bitvector_vector *v, int t);
 \endcode
  \tab
-Returns a character string that contains the first {\tt b} bits of the bit vector {\tt v},
-in a format compatible for Mathematica input.   \pierre{Needed?}
+Fills {\tt v} with {\tt t} zeros followed by ones.
  \endtab
 \code
 
 void bitvector_fillRandomBits (bitvector_vector *v);
 \endcode
  \tab
-Fills the vector {\tt v} with random bits.   
+Fills the vector {\tt v} with random bits.
  \pierre{We need to provide a local implementation of this!!!  To be done later.}
  \endtab
 \code\hide
@@ -293,19 +284,18 @@ Fills the vector {\tt v} with random bits.
 \mp{Simple tools for bit vectors in C:  \url{http://c-faq.com/misc/bitsets.html}.
 Bits are counted from the left, starting at 0, as far as I understand.}
 
-\mp{Another nice set of macros in C:  
+\mp{Another nice set of macros in C:
 \url{https://github.com/iplinux/x11proto-trap/blob/master/xtrapbits.h}}
 
 \mp{In \url{https://www.gnu.org/software/guile/docs/docs-1.8/guile-ref/Bit-Vectors.html},
-bits are counted from left to right, starting at 0.  
+bits are counted from left to right, starting at 0.
 Different operations are available, such as Hamming weight of bit string.}
 
 \mp{See \url{https://en.wikipedia.org/wiki/Bit_array} for bit vectors in various languages.
-In \texttt{LatNet Builder} we use \texttt{dynamic\_bitset}, available in 
-the Boost C++ library: 
+In \texttt{LatNet Builder} we use \texttt{dynamic\_bitset}, available in
+the Boost C++ library:
 \url{https://www.boost.org/doc/libs/1\_73\_0/libs/dynamic\_bitset/dynamic\_bitset.html}.}
 
 \mp{In the dynamic bitsets of Boost, we  find the following:\small
-``Each bit represents either the Boolean value true or false (1 or 0). To set a bit is to assign it 1. To clear or reset a bit is to assign it 0. To flip a bit is to change the value to 1 if it was 0 and to 0 if it was 1. Each bit has a non-negative position. A bitset x contains x.size() bits, with each bit assigned a unique position in the range [0,x.size()). The bit at position 0 is called the least significant bit and the bit at position size() - 1 is the most significant bit. When converting an instance of dynamic\_bitset to or from an unsigned long n, the bit at position i of the bitset has the same value 
+``Each bit represents either the Boolean value true or false (1 or 0). To set a bit is to assign it 1. To clear or reset a bit is to assign it 0. To flip a bit is to change the value to 1 if it was 0 and to 0 if it was 1. Each bit has a non-negative position. A bitset x contains x.size() bits, with each bit assigned a unique position in the range [0,x.size()). The bit at position 0 is called the least significant bit and the bit at position size() - 1 is the most significant bit. When converting an instance of dynamic\_bitset to or from an unsigned long n, the bit at position i of the bitset has the same value
 as {\tt (n >> i) \& 1}.''}
-

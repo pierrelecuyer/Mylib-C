@@ -37,10 +37,6 @@ for which each entry is an {\tt b}-bit binary vector.
 This gives a matrix with {\tt r} rows of {\tt t $\times$ b} bits each.
 The variable {\tt rows} contains an array of {\tt r} arrays of {\tt t} {\tt b}-bit vectors.
 Storage space for this array should be allocated via {\tt bitmatrix\_allocate()}.
-\mpierre{Note that the number {\tt b} is not stored in the binary vectors, 
-but it is stored here.}
-\pierre{The order of arguments was not the same here as in the allocate, 
-  so I changed it here.  Beware!}  
 \endtab
 \code
 
@@ -63,6 +59,14 @@ void bitmatrix_free (bitmatrix_matrix *m);
  \endtab
 \code
 
+void bitmatrix_display (bitmatrix_matrix *m, int t, int l, int r);
+\endcode
+ \tab
+Displays (print) the submatrix of {\tt *m} defined by the first {\tt r} rows and the 
+first {\tt l} bits of the first {\tt t} bit vectors.  
+ \endtab
+ \code
+
 void bitmatrix_copypart (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
                          int r, int t);
 \endcode
@@ -80,9 +84,34 @@ Copies the ({\tt t}-1) bit vectors indicated by the array {\tt col},
 plus the first bit vector, on each of the {\tt nl} first rows of the matrix 
 {\tt m2} to the first {\tt t} bit vectors
 on each of the first {\tt nl} rows of the matrix {\tt m1}.
- \pierre{Seems very specialized.  Why is this useful? }
  \endtab
 \code
+
+void bitmatrix_transpose (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
+                          int r, int t, int b);
+\endcode
+ \tab
+Transposes the {\tt t} matrices of dimension {\tt r}$\times${\tt b} 
+found in {\tt m2} and puts the result in {\tt m1}. 
+ \endtab
+\code
+
+void bitmatrix_exchangeRows (bitmatrix_matrix *m, int i, int j);
+\endcode
+ \tab
+Exchanges rows {\tt i} and {\tt j} in the binary matrix {\tt *m}.
+ \endtab
+\code
+
+void bitmatrix_xorVect (bitmatrix_matrix *m, int r, int s, int min, int max);
+\endcode
+ \tab
+Performs a exclusive-or between the {\tt s}-th and {\tt r}-th rows of {\tt m},
+for the {\tt min}-th to the ({\tt max}-1)-th bit vectors only.  
+The result is put in row {\tt r} of {\tt m}.
+%  {\tt m[r]} = {\tt m[r]} \verb1^1 {\tt m[s]}
+ \endtab
+\code 
 
 lebool bitmatrix_diagonalize (bitmatrix_matrix *m, int kg, int t, int l, int *gr);
 \endcode
@@ -104,6 +133,15 @@ and the first {\tt l} bits of the first {\tt t} bit vectors on each row.
  \endtab
 \code
 
+int bitmatrix_specialGaussianElimination (bitmatrix_matrix *m, 
+                                          int r, int l, int t, int *indices);
+\endcode
+ \tab
+Returns the rank of the submatrix of {\tt m} formed by the first {\tt r} rows 
+and the first {\tt l} bits of the bit vectors indicated by the array {\tt indices}.
+ \endtab
+ \code
+
 int bitmatrix_completeElimination (bitmatrix_matrix *m, int r, int l, int t);
 \endcode
  \tab
@@ -113,57 +151,22 @@ It returns the rank of the submatrix of {\tt m} comprised of the first
  \endtab
 \code
 
-int bitmatrix_specialGaussianElimination (bitmatrix_matrix *m, 
-                                          int r, int l, int t, int *indices);
-\endcode
- \tab
-Returns the rank of the submatrix of {\tt m} formed by the first {\tt r} rows 
-and the first {\tt l} bits of the bit vectors indicated by the array {\tt indices}.
- \endtab
-\code
-
-void bitmatrix_productByVector (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
-                                bitvector_vector *v);
-\endcode
-\tab
-Puts in {\tt m1} the product of {\bf m2} by the vector {\tt v}.
-\endtab
-\code
-
-void bitmatrix_transpose (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
-                          int r, int t, int l);
-\endcode
- \tab
-Transposes the {\tt t} matrices of dimension {\tt r}$\times${\tt l} 
-found in {\tt m2} and puts the result in {\tt m1}.
- \endtab
-\code
-
-void bitmatrix_exchangeRows (bitmatrix_matrix *m, int i, int j);
-\endcode
- \tab
-Exchanges rows {\tt i} and {\tt j} in the binary matrix {\tt *m}.
- \endtab
-\code
-
-void bitmatrix_xorVect (bitmatrix_matrix *m, int r, int s, int min, int max);
-\endcode
- \tab
-Performs a exclusive-or between the {\tt s}-th and {\tt r}-th rows of {\tt m},
-for the {\tt min}-th to the ({\tt max}-1)-th bit vectors only.  
-The result is put in row {\tt r} of {\tt m}.
-%  {\tt m[r]} = {\tt m[r]} \verb1^1 {\tt m[s]}
- \endtab
-\code 
-
 lebool bitmatrix_inverse (bitmatrix_matrix *minv, bitmatrix_matrix *m);
 \endcode
 \tab
-Computes the inverse of {\tt m} and puts the results in {\tt minv}.
+Tries computing the inverse of {\tt m}, returns {\tt TRUE} if it succeeded, and puts the results in {\tt minv}.
+Otherwise, returns {\tt FALSE}.
 The sub matrices of the {\tt Matrix}s pointed by {\tt m} and {\tt minv} that 
-are considered are the ones composed of only the first columns of the bit vectors.
-\pierre{Not clear enough...}
-\endtab
+are considered are the ones composed of only the first column of the bit vectors.
+ \endtab
+\code
+
+void bitmatrix_productByVector (bitvector_vector *v1, bitmatrix_matrix *m, 
+                                bitvector_vector *v2);
+\endcode
+\tab
+Puts in {\tt v1} the product of {\bf m} by the vector {\tt v2}.
+ \endtab
 \code
 
 void bitmatrix_product (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
@@ -171,7 +174,7 @@ void bitmatrix_product (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
 \endcode
 \tab
 Compute the matrix product of {\tt m2} by {\tt m3} and puts the results in {\tt m1}.
-Only the first submatrices are considered. \pierre{Meaning?  Sizes must be compatible!}
+Only the first submatrices are considered (i.e. the matrices composed of the first column of bit vectors). 
 \endtab
 \code
 
@@ -181,7 +184,6 @@ void bitmatrix_power (bitmatrix_matrix *m1, bitmatrix_matrix *m2, int64_t e);
 Raises binary matrix {\tt m2} to the power {\tt e} and puts the results in {\tt m1}.
 The exponent $e$ can be negative, in which case, the inverse of {\tt m2}
 will be raised to the power $|e|$.
-\pierre{Matrix must be square?}
 \endtab
 \code
 
@@ -192,23 +194,7 @@ void bitmatrix_powerOfTwo (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
 Raises binary matrix {\tt m2} to the power $2^{\tt e}$ and puts the results in {\tt m1}.
 We get ${\tt m1} = {\tt m2}^{2^{e}}$.
 \endtab
-\code
 
-void bitmatrix_display (bitmatrix_matrix *m, int t, int l, int r);
-\endcode
- \tab
-Displays the submatrix of {\tt *m} defined by the first {\tt r} rows and the 
-first {\tt l} bits of the first {\tt t} bit vectors.  
-\pierre{Make this clearer.  Return in a character string?}
- \endtab
-\code
-
-void bitmatrix_displayMathematica (bitmatrix_matrix *m, int t, int l, int r);
-\endcode
- \tab
-Same as \texttt{bitmatrix\_display} but produces a display compatible for
-Mathematica input.
- \endtab
 \code\hide
 #endif
 \endhide\endcode

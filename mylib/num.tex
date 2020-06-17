@@ -109,8 +109,6 @@ extern double num_TENNEGPOW[];
 int64_t num_Round64 (double x);
 \endcode
   \tab Rounds $x$ to the nearest ({\tt int64\_t}) integer and returns it.
-	\pierre{Changed from \texttt{long} to \texttt{int64\_t}.
-	   Some of these might be defined as macros!}
   \endtab
 \code
 
@@ -135,7 +133,6 @@ int num_IsNumber (char S[]);
 void num_IntToStrBase (int64_t k, int b, char S[]);
 \endcode
   \tab Returns in {\tt S} the string representation of {\tt k} in base {\tt b}.
-	\pierre{Changes from \texttt{long}...}
   \endtab
 \code
 
@@ -148,7 +145,6 @@ void num_Uint2Uchar (unsigned char output[], uint64_t input[], int L);
   the 8 least significant bits of {\tt input[0]} will be in {\tt output[7]},
   and the 8 least significant bits of {\tt input[L-1]} will be in
   {\tt output[8L-1]}. Array {\tt output} must have at least $8L$ elements.
-	\pierre{Change \texttt{unsigned int} to \texttt{uint64\_t}.}
   \endtab
 \code
 
@@ -214,7 +210,6 @@ int64_t num_InvEuclid (int64_t m, int64_t x);
 long num_InvEuclid32 (long m, long z);
 \endcode
  \tab  Same as \texttt{num\_InvEuclid}, but for 32-bit integers.   
-   \pierre{Needed?}
 \endtab
 \code
 
@@ -232,7 +227,6 @@ uint64_t num_InvExpon (int e, uint64_t z);
  \endcode
  \tab  Same as \texttt{num\_InvExpon}, but for 32-bit integers.
   Restriction: $e \le 32$.   
-	 \pierre{Needed?  We can at least hide them from the doc.}
 \endtab
 \code\hide
 #endif

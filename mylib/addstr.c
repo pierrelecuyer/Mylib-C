@@ -1,33 +1,3 @@
-/*************************************************************************\
- *
- * Package:        MyLib
- * File:           addstr.c
- * Environment:    ANSI C
- *
- * Copyright (c) 2002 Pierre L'Ecuyer, DIRO, Université de Montréal.
- * e-mail: lecuyer@iro.umontreal.ca
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted without a fee for private, research,
- * academic, or other non-commercial purposes.
- * Any use of this software in a commercial environment requires a
- * written licence from the copyright owner.
- *
- * Any changes made to this package must be clearly identified as such.
- *
- * In scientific publications which used this software, a reference to it
- * would be appreciated.
- *
- * Redistributions of source code must retain this copyright notice
- * and the following disclaimer.
- *
- * THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
- * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
-\*************************************************************************/
-
 #include "addstr.h"
 
 #include <stdio.h>
@@ -37,10 +7,9 @@
 #define LEN1 63
 
 
-
 /* ========================== functions  ================================= */
 
-void  addstr_Long (char *to, const char *add, long n)
+void  addstr_long (char *to, const char *add, long n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -48,7 +17,7 @@ void  addstr_Long (char *to, const char *add, long n)
    strcat (to, str);
 }
 
-void  addstr_Uint (char *to, const char *add, unsigned int n)
+void  addstr_uint (char *to, const char *add, unsigned int n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -56,7 +25,7 @@ void  addstr_Uint (char *to, const char *add, unsigned int n)
    strcat (to, str);
 }
 
-void  addstr_Int (char *to, const char *add, int n)
+void  addstr_int (char *to, const char *add, int n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -64,7 +33,7 @@ void  addstr_Int (char *to, const char *add, int n)
    strcat (to, str);
 }
 
-void  addstr_Ulong (char *to, const char *add, unsigned long n)
+void  addstr_ulong (char *to, const char *add, unsigned long n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -72,7 +41,7 @@ void  addstr_Ulong (char *to, const char *add, unsigned long n)
    strcat (to, str);
 }
 
-void  addstr_LONG (char *to, const char *add, int64_t n)
+void  addstr_int64 (char *to, const char *add, int64_t n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -80,7 +49,7 @@ void  addstr_LONG (char *to, const char *add, int64_t n)
    strcat (to, str);
 }
 
-void  addstr_ULONG (char *to, const char *add, uint64_t n)
+void  addstr_uint64 (char *to, const char *add, uint64_t n)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -88,7 +57,7 @@ void  addstr_ULONG (char *to, const char *add, uint64_t n)
    strcat (to, str);
 }
 
-void  addstr_Char (char *to, const char *add, char c)
+void  addstr_char (char *to, const char *add, char c)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -96,7 +65,7 @@ void  addstr_Char (char *to, const char *add, char c)
    strcat (to, str);
 }
 
-void  addstr_Double (char *to, const char *add, double x)
+void  addstr_double (char *to, const char *add, double x)
 {
    char str[LEN1 + 1];
    strcat (to, add);
@@ -104,7 +73,7 @@ void  addstr_Double (char *to, const char *add, double x)
    strcat (to, str);
 }
 
-void  addstr_Bool (char *to, const char *add, int b)
+void  addstr_bool (char *to, const char *add, int b)
 {
    strcat (to, add);
    if (b)
@@ -113,95 +82,107 @@ void  addstr_Bool (char *to, const char *add, int b)
       strcat (to, "FALSE");
 }
 
-void  addstr_ArrayLong (char *to, const char *add, int high, long val[])
+void  addstr_array_long (char *to, const char *add, int high, long val[])
 {
    int j;
    strcat (to, add);
-   addstr_Long (to, "(", val[0]);
+   addstr_long (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_Long (to, ", ", val[j]);
+      addstr_long (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayLONG (char *to, const char *add, int high, int64_t val[])
+void  addstr_array_int64 (char *to, const char *add, int high, int64_t val[])
 {
    int j;
    strcat (to, add);
-   addstr_LONG (to, "(", val[0]);
+   addstr_int64 (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_LONG (to, ", ", val[j]);
+      addstr_int64 (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayUlong (char *to, const char *add, 
+void  addstr_array_ulong (char *to, const char *add,
                          int high, unsigned long val[])
 {
    int j;
    strcat (to, add);
-   addstr_Ulong (to, "(", val[0]);
+   addstr_ulong (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_Ulong (to, ", ", val[j]);
+      addstr_ulong (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayULONG (char *to, const char *add, 
+void  addstr_array_uint64 (char *to, const char *add,
                          int high, uint64_t val[])
 {
    int j;
    strcat (to, add);
-   addstr_ULONG (to, "(", val[0]);
+   addstr_uint64 (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_ULONG (to, ", ", val[j]);
+      addstr_uint64 (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayUint (char *to, const char *add, int high, 
+void  addstr_array_uint (char *to, const char *add, int high,
 		        unsigned int val[])
 {
    int j;
    strcat (to, add);
-   addstr_Uint (to, "(", val[0]);
+   addstr_uint (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_Uint (to, ", ", val[j]);
+      addstr_uint (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayInt (char *to, const char *add, int high, int val[])
+void  addstr_array_int (char *to, const char *add, int high, int val[])
 {
    int j;
    strcat (to, add);
-   addstr_Int (to, "(", val[0]);
+   addstr_int (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_Int (to, ", ", val[j]);
+      addstr_int (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
       strcat (to, ")");
 }
 
-void  addstr_ArrayDouble (char *to, const char *add, 
-                          int high, double val[])
+void  addstr_array_double (char *to, const char *add, int high, double val[])
 {
    int j;
    strcat (to, add);
-   addstr_Double (to, "(", val[0]);
+   addstr_double (to, "(", val[0]);
    for (j = 1; (j < high) && (j < 5); j++)
-      addstr_Double (to, ", ", val[j]);
+      addstr_double (to, ", ", val[j]);
+   if (high > 5)
+      strcat (to, ", ... )");
+   else
+      strcat (to, ")");
+}
+
+void  addstr_array_char (char *to, const char *add, int high, char val[])
+{
+   int j;
+   strcat (to, add);
+   addstr_char (to, "(", val[0]);
+   for (j = 1; (j < high) && (j < 5); j++)
+      addstr_char (to, ", ", val[j]);
    if (high > 5)
       strcat (to, ", ... )");
    else
