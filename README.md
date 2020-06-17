@@ -20,11 +20,7 @@ A Small Collection of Old Basic Utilities in C
   and binaries. It is advised to set the install directory completely 
   separate from the package directory.
   
-<<<<<<< HEAD
 	 ./configure --prefix= &lt install directory &gt --disable-shared
-=======
-	 ./configure --prefix=&ltinstall directory&gt --disable-shared
->>>>>>> ac083cb65d56beffd0fe1863985d0d0cbe1748b6
 
   For example, if you want to install it in the directory usr in the
   user's home directory, call (directory usr MUST EXIST)
