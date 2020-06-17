@@ -1,0 +1,32 @@
+#!/bin/sh
+
+rm -f Makefile.def
+
+echo 'docdir = ${prefix}/share/Mylib-C/doc' >> Makefile.def
+echo 'MYLIB = ${top_srcdir}/mylib' >> Makefile.def
+echo '' >> Makefile.def
+
+MYLIBMODULES='addsrt bitmatrix bitset bitvector chrono gdef mystr num num2 tables tcode util'
+
+function writevar() {
+   HEADERS=""
+   TEX=""
+   SOURCES=""
+   for mod in $1; do
+      HEADERS="$HEADERS ${mod}.h"
+      SOURCES="$SOURCES ${mod}.c"
+      TEX="$TEX \$($2)/${mod}.tex"
+   done
+   echo "$2HEADERS =$HEADERS" >> Makefile.def
+   echo "$2SOURCES =$SOURCES" >> Makefile.def
+   echo "$2TEX =$TEX" >> Makefile.def
+   echo '' >> Makefile.def
+   unset HEADERS
+   unset TEX
+   unset SOURCES
+}
+
+writevar "$MYLIBMODULES" 'MYLIB'
+
+unset writevar
+unset MYLIBMODULES

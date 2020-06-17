@@ -1,0 +1,6 @@
+docdir = ${prefix}/share/Mylib-C/doc
+MYLIB = ${top_srcdir}/mylib
+
+MYLIBHEADERS = gdef.h addstr.h bitset.h chrono.h mystr.h num.h num2.h tables.h util.h
+MYLIBSOURCES = gdef.c addstr.c bitset.c chrono.c mystr.c num.c num2.c tables.c util.c
+MYLIBTEX = $(MYLIB)/gdef.tex $(MYLIB)/addstr.tex $(MYLIB)/bitset.tex $(MYLIB)/chrono.tex $(MYLIB)/mystr.tex $(MYLIB)/num.tex $(MYLIB)/num2.tex $(MYLIB)/tables.tex $(MYLIB)/util.tex

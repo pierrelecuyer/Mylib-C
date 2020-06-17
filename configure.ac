@@ -4,7 +4,7 @@
 # AC_PREREQ(2.57)
 AC_INIT(TestU01, 1.2.3, lecuyer@iro.umontreal.ca)
 AC_CONFIG_SRCDIR([mylib/num.c])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([gnu subdir-objects foreign])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_HEADER([include/gdefconf.h])
 
@@ -18,9 +18,6 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 AC_CHECK_PROG(have_mathematica,math, yes, no) 
-if test "x$have_mathematica" = "xyes" ; then
-   AC_DEFINE([HAVE_MATHEMATICA], 1, [Define when Mathematica is installed])
-fi
 
 # Checks for libraries.
 AC_CHECK_LIBM
@@ -42,7 +39,6 @@ LIBS="$LIBM $LIBS"
 AC_CHECK_FUNCS([random erf lgamma log1p])
 
 AC_CONFIG_FILES([Makefile
-                 include/Makefile mylib/Makefile probdist/Makefile
-                 testu01/Makefile examples/Makefile doc/Makefile param/Makefile])
+                 include/Makefile mylib/Makefile])
 AC_SUBST([LIBM])
 AC_OUTPUT
