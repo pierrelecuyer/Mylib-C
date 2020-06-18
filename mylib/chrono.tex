@@ -2,27 +2,6 @@
 
 This module acts as an interface to the system clock to compute the
 CPU time used by parts of a program.
-  Even though the ANSI/ISO macro {\tt CLOCKS\_PER\_SEC = 1000000} 
-  is the number of clock ticks per second for the value
-  returned by the {\tt clock} function (so this function returns the
-  number of microseconds), on some systems where the 32-bit type {\tt long} 
-  is used to measure time, the value returned by {\tt clock}
-  wraps around to negative values after about 36 minutes.
-  On some other systems where time is measured using the 32-bit type
-  {\tt unsigned long}, the clock may wrap around to 0 after about
-   72 minutes.
-  When the macro {\tt USE\_ANSI\_CLOCK} in module {\tt gdef} is undefined, 
-  a non-ANSI-C clock is used. 
-  On Linux-Unix systems, it calls the POSIX
-  function {\tt times} to get the CPU time used by a program.
-\hpierre{Is this true for both Linux and Windows?}
-\hrichard{Je ne crois pas que MicroMou respecte le standard POSIX, qui est
- sp\'ecifique aux syst\`emes Unix ou Linux.}
-  On a Windows platform (when the macro \texttt{HAVE\_WINDOWS\_H} is defined),
-  the Windows function \texttt{GetProcessTimes} will be used to measure
-  the CPU time used by programs.
-
-
 Every variable of type {\tt chrono\_Chrono} acts as an independent 
 {\em stopwatch}.  Several such stopwatchs can run at any given time.
 An object of type {\tt chrono\_Chrono} must be declared 
@@ -56,6 +35,28 @@ the stopwatch is read again, printed to the output and deleted.
   chrono\_Write (mytimer, chrono\_hms);  \qquad\ \  /* Prints: 00:05:30.00 */\\
   chrono\_Delete (mytimer);
  }\end{verse}
+
+When using this module, it is strongly recommended to leave the macro {\tt USE\_ANSI\_CLOCK} 
+in module {\tt gdef} undefined, otherwise the timer may %  {\tt clock}
+wrap around to negative values after about 36 minutes.
+  Then, on Linux-Unix systems, this module will use the POSIX
+  function {\tt times} to get the CPU time used by a program.
+  On a Windows platform (when the macro \texttt{HAVE\_WINDOWS\_H} is defined),
+  the Windows function \texttt{GetProcessTimes} will be used to measure
+  the CPU time used by programs.
+\hrichard{Je ne crois pas que MicroMou respecte le standard POSIX, qui est
+ sp\'ecifique aux syst\`emes Unix ou Linux.}
+
+\iffalse  %%%%%%
+  Even though the ANSI/ISO macro {\tt CLOCKS\_PER\_SEC = 1000000} 
+  is the number of clock ticks per second for the value
+  returned by the {\tt clock} function (so this function returns the
+  number of microseconds), on some systems where the 32-bit type {\tt long} 
+  is used to measure time, the value returned by {\tt clock}
+  wraps around to negative values after about 36 minutes.
+  On some other systems where time is measured using the 32-bit type
+  {\tt unsigned long}, the clock may wrap around to 0 after about 72 minutes.
+\fi  %%%%%%
 
 \code
 \iffalse
