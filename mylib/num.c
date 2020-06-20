@@ -79,7 +79,7 @@ int num_IsNumber (char S[])
 			}
 		}
 	}                            /* end for */
-	return 0;                    /* There's no digit in S */
+	return 1;                    /* There's no digit in S */
 }                                    /* end IsNumber() */
 
 
@@ -117,7 +117,7 @@ void num_IntToStrBase (int64_t k, int b, char S[])
 	else
 		uppbound = total;
 	S[uppbound] = '\0';
-	for (i = 0; i < total - 1; i++) {
+	for (i = 0; i <= total - 1; i++) {
 		S[(uppbound - i) - 1] =
 			(char) ((int) fmod ((double) k, (double) b) + Char0);
 		k = (long) (k / b);
