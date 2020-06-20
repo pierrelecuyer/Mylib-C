@@ -5,11 +5,14 @@ rm -f Makefile.def
 echo 'docdir = ${prefix}/share/Mylib-C/doc' >> Makefile.def
 echo 'MYLIB = ${top_srcdir}/mylib' >> Makefile.def
 echo 'UNITTESTS = ${top_srcdir}/unit-tests' >> Makefile.def
+echo 'EXAMPLES = ${top_srcdir}/examples' >> Makefile.def
 echo '' >> Makefile.def
 
 MYLIBMODULES='addsrt bitmatrix bitset bitvector chrono gdef mystr num num2 tables tcode util'
 
 UNITTESTSMODULES='unit num_utest num2_utest'
+
+EXAMPLESMODULES='bitvector_example bitmatrix_example'
 
 function writevar() {
    HEADERS=""
@@ -31,7 +34,10 @@ function writevar() {
 
 writevar "$MYLIBMODULES" 'MYLIB'
 writevar "$UNITTESTSMODULES" "UNITTESTS"
+writevar "$EXAMPLESMODULES" "EXAMPLES"
+
 
 unset writevar
 unset MYLIBMODULES
 unset UNITTESTSMODULES
+unset EXAMPLES
