@@ -46,7 +46,7 @@ The module also contains safe prototype functions to open and close files.
  \endtab
 \code
 \hide
-#define util_Assert(Cond,s) if (!(Cond)) util_Error(s)
+#define util_Assert(Assertion,s) if (!(Assertion)) util_Error(s)
 \endhide
 \endcode
 

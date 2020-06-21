@@ -197,8 +197,7 @@ double num_MultModDouble (double a, double s, double c, double m);
 \endtab
 \code
 
-
-int64_t num_InvEuclid (int64_t m, int64_t x);
+int64_t num_InvEuclid (int64_t m, int64_t z);
 \endcode
  \tab  This function computes the inverse $z^{-1}\bmod m$ by the 
   modified Euclid algorithm (see \cite[p. 325]{iKNU81a}) and returns
@@ -223,10 +222,22 @@ uint64_t num_InvExpon (int e, uint64_t z);
  \endtab
 \code
 
- long num_InvExpon32 (int e, long Z);
+ long num_InvExpon32 (int e, long z);
  \endcode
  \tab  Same as \texttt{num\_InvExpon}, but for 32-bit integers.
   Restriction: $e \le 32$.   
+\endtab
+\code
+
+ long num_gcd (long a, long b);
+ \endcode
+ \tab  Returns the greatest common divisor gcd(\texttt{a,b}).   
+\endtab
+\code
+
+ lebool num_isMersennePrime (int e);
+ \endcode
+ \tab  Returns \texttt{TRUE} iff $2^e-1$ is a Mersenne prime for $e \le 110503$.   
 \endtab
 \code\hide
 #endif
