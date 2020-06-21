@@ -127,6 +127,14 @@ int util_GetLine (FILE *file, char *Line, char c);
   \endtab
 \code
 
+void util_ReadLn (FILE *f);
+\endcode
+  \tab
+  Skips the remainder of the current line of FILE \texttt{f} and moves the current position
+  of the pointer to FILE \texttt{f} to the beginning of the next line.
+  \endtab
+\code
+
 void util_ReadBool (char S[], lebool *x);
 \endcode
   \tab
