@@ -36,18 +36,15 @@ the stopwatch is read again, printed to the output and deleted.
   chrono\_Delete (mytimer);
  }\end{verse}
 
-When using this module, it is strongly recommended to leave the macro {\tt USE\_ANSI\_CLOCK} 
-in module {\tt gdef} undefined, otherwise the timer may %  {\tt clock}
-wrap around to negative values after about 36 minutes.
-  Then, on Linux-Unix systems, this module will use the POSIX
-  function {\tt times} to get the CPU time used by a program.
-  On a Windows platform (when the macro \texttt{HAVE\_WINDOWS\_H} is defined),
-  the Windows function \texttt{GetProcessTimes} will be used to measure
-  the CPU time used by programs.
-\hrichard{Je ne crois pas que MicroMou respecte le standard POSIX, qui est
- sp\'ecifique aux syst\`emes Unix ou Linux.}
-\hpierre{See  \url{https://stackoverflow.com/questions/39935820/accuracy-of-clock-function-in-c}}
+% When using this module, it is strongly recommended to leave the macro {\tt USE\_ANSI\_CLOCK} 
+% in module {\tt gdef} undefined, otherwise the timer may %  {\tt clock}
+% wrap around to negative values after about 36 minutes.
+% {See  \url{https://stackoverflow.com/questions/39935820/accuracy-of-clock-function-in-c}}
 
+On Linux-Unix systems, this module uses the POSIX
+function {\tt times} to get the CPU time used by a program.
+  On a Windows platform (when the macro \texttt{HAVE\_WINDOWS\_H} is defined),
+  the Windows function \texttt{GetProcessTimes} is used instead.
 
 \iffalse  %%%%%%
   Even though the ANSI/ISO macro {\tt CLOCKS\_PER\_SEC = 1000000} 

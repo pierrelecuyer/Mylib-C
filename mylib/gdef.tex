@@ -49,33 +49,6 @@ typedef int lebool;
  \endtab
 \code
 
-#undef USE_ANSI_CLOCK
-\endcode
-  \tab   The recommendation is to leave this undefined. 
-   \pierre{Deprecated.  Perhaps it should be removed altogether, or at least hidden.}
-  On Linux/Unix platforms, if the macro
-  \texttt{USE\_ANSI\_CLOCK} is defined, the timers % in module \texttt{chrono}
-  will call the ANSI C  \texttt{clock} function. However, on systems
-  where the type \texttt{clock\_t} is a 32-bit \texttt{long},
-  the time returned
-  will wrap around to negative values after about 36 minutes.
-  When the macro \texttt{USE\_ANSI\_CLOCK} is undefined, the
-  module \texttt{chrono} gets the CPU time used by a program via an 
-  alternate non-ANSI C timer 
-  based on the POSIX (The Portable Operating System Interface)
-  function \texttt{times}, assuming this function is available. The POSIX
-  standard is described in the IEEE Std 1003.1-2001 document (see 
-  The Open Group web site at
-  \url{http://www.opengroup.org/onlinepubs/007904975/toc.htm}).
-	
-	On Windows platforms, we use the 
-   %(when the macro \texttt{HAVE\_WINDOWS\_H} is defined),
-  MS-Windows function \texttt{GetProcessTimes} to measure
-  the CPU time used by programs (in module \texttt{chrono}).
- \endtab
-\code
-
-
 #define DIR_SEPARATOR "/"
 \endcode
   \tab Used to separate directories in the pathname of a file.
