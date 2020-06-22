@@ -1,12 +1,15 @@
 %.h: ${MYLIB}/%.tex
 	${top_srcdir}/tcode $< $@
 
+%.h: ${UNITTESTS}/%.tex
+	${top_srcdir}/tcode $< $@
+	
 include Makefile.def
 
-include_HEADERS = $(MYLIBHEADERS) gdefconf.h
+include_HEADERS = $(MYLIBHEADERS) $(UNITTESTSHEADERS) gdefconf.h
 
-noinst_HEADERS = $(MYLIBTEX)
+noinst_HEADERS = $(MYLIBTEX) $(UNITTESTSTEX)
 noinst_SCRIPTS = makedef
 
-CLEANFILES = $(MYLIBHEADERS) gdefconf.h
+CLEANFILES = $(MYLIBHEADERS) $(UNITTESTSHEADERS) gdefconf.h
 MAINTAINERCLEANFILES = Makefile.in Makefile.def

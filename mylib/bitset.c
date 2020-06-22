@@ -4,9 +4,10 @@
 #include <string.h>
 #include <limits.h>
 
-
+/*
 const uint64_t bitset_ONE = 1ULL;
 const uint64_t bitset_ALLONES = 18446744073709551615ULL;
+*/
 
 unsigned long bitset_maskUL[] = {
    1,
