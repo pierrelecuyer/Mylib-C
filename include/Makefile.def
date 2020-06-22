@@ -9,6 +9,6 @@ MYLIBTEX = $(MYLIB)/gdef.tex $(MYLIB)/addstr.tex $(MYLIB)/bitset.tex $(MYLIB)/ch
 
 UNITTESTSHEADERS = unit.h num_utest.h num2_utest.h
 UNITTESTSSOURCES = unit.c num_utest.c num2_utest.c
-UNITTESTSTEX = unit.tex num_utest.tex num2_utest.tex
+UNITTESTSTEX = $(UNITTESTS)/unit.tex $(UNITTESTS)/num_utest.tex $(UNITTESTS)/num2_utest.tex
 
 EXAMPLESSOURCES = bitvector_example.c bitmatrix_example.c
