@@ -2,14 +2,7 @@
  *
  * File:           RngStream.c for multiple streams of Random Numbers
  * Language:       ANSI C
- * Copyright:      Pierre L'Ecuyer, Université de Montréal
- * Notice:         This code can be used freely for personal, academic,
- *                 or non-commercial purposes. For commercial purposes, 
- *                 please contact P. L'Ecuyer at: lecuyer@iro.UMontreal.ca
- * Date:           14 August 2001
-
- * Correction:     24 August 2011
- *		                  changed m1 to m2 in error message of CheckSeed
+ * Copyright:      Pierre L'Ecuyer and Université de Montréal 
  *
  * If you use this software for work leading to publications, 
  * please cite the following relevant articles in which MRG32k3a 
@@ -25,7 +18,7 @@
 \***********************************************************************/
 
 
-#include "RngStream.h"
+#include "rngstream.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,8 +40,6 @@
 #define two17   131072.0
 #define two53   9007199254740992.0
 #define fact  5.9604644775390625e-8    /* 1 / 2^24 */
-
-
 
 
 /* Default initial seed of the package. Will be updated to become
@@ -108,9 +99,8 @@ static double A2p127[3][3] = {
 
 
 
-
-
 /*-------------------------------------------------------------------------*/
+
 
 static double MultModM (double a, double s, double c, double m)
    /* Compute (a*s + c) % m. m must be < 2^35.  Works also for s, c < 0 */
@@ -224,6 +214,8 @@ static void MatPowModM (double A[3][3], double B[3][3], double m, long n)
 
 /*-------------------------------------------------------------------------*/
 
+/*   !!!!!!!     Replace by the faster 64-bit code.    */
+
 static double U01 (RngStream g)
 {
    long k;
@@ -250,32 +242,12 @@ static double U01 (RngStream g)
    g->Cg[5] = p2;
 
    /* Combination */
-   u = ((p1 > p2) ? (p1 - p2) * norm : (p1 - p2 + m1) * norm);
-   return (g->Anti) ? (1 - u) : u;
+   return u = ((p1 > p2) ? (p1 - p2) * norm : (p1 - p2 + m1) * norm);
 }
-
 
 /*-------------------------------------------------------------------------*/
 
-static double U01d (RngStream g)
-{
-   double u;
-   u = U01(g);
-   if (g->Anti == 0) {
-      u += U01(g) * fact;
-      return (u < 1.0) ? u : (u - 1.0);
-   } else {
-      /* Don't forget that U01() returns 1 - u in the antithetic case */
-      u += (U01(g) - 1.0) * fact;
-      return (u < 0.0) ? u + 1.0 : u;
-   }
-}
-
-
-/*-------------------------------------------------------------------------*/
-
-static int CheckSeed (unsigned long seed[6])
-{
+static int CheckSeed (unsigned long seed[6]) {
    /* Check that the seeds are legitimate values. Returns 0 if legal seeds,
      -1 otherwise */
    int i;
@@ -318,28 +290,17 @@ static int CheckSeed (unsigned long seed[6])
 /*---------------------------------------------------------------------*/
 
 
-RngStream RngStream_CreateStream (const char name[])
-{
+RngStream RngStream_CreateStream () {
    int i;
    RngStream g;
-   size_t len;
 
    g = (RngStream) malloc (sizeof (struct RngStream_InfoState));
    if (g == NULL) {
       printf ("RngStream_CreateStream: No more memory\n\n");
       exit (EXIT_FAILURE);
    }
-   if (name) {
-      len = strlen (name);
-      g->name = (char *) malloc ((len + 1) * sizeof (char));
-      strncpy (g->name, name, len + 1);
-   } else
-      g->name = 0;
-   g->Anti = 0;
-   g->IncPrec = 0;
-
    for (i = 0; i < 6; ++i) {
-      g->Bg[i] = g->Cg[i] = g->Ig[i] = nextSeed[i];
+      g->Cg[i] = g->Ig[i] = nextSeed[i];
    }
    MatVecModM (A1p127, nextSeed, nextSeed, m1);
    MatVecModM (A2p127, &nextSeed[3], &nextSeed[3], m2);
@@ -352,8 +313,6 @@ void RngStream_DeleteStream (RngStream * p)
 {
    if (*p == NULL)
       return;
-   if ((*p)->name != NULL)
-      free ((*p)->name);
    free (*p);
    *p = NULL;
 }
@@ -364,32 +323,12 @@ void RngStream_ResetStartStream (RngStream g)
 {
    int i;
    for (i = 0; i < 6; ++i)
-      g->Cg[i] = g->Bg[i] = g->Ig[i];
+      g->Cg[i] = g->Ig[i];
 }
 
 /*-------------------------------------------------------------------------*/
 
-void RngStream_ResetNextSubstream (RngStream g)
-{
-   int i;
-   MatVecModM (A1p76, g->Bg, g->Bg, m1);
-   MatVecModM (A2p76, &g->Bg[3], &g->Bg[3], m2);
-   for (i = 0; i < 6; ++i)
-      g->Cg[i] = g->Bg[i];
-}
-
-/*-------------------------------------------------------------------------*/
-
-void RngStream_ResetStartSubstream (RngStream g)
-{
-   int i;
-   for (i = 0; i < 6; ++i)
-      g->Cg[i] = g->Bg[i];
-}
-
-/*-------------------------------------------------------------------------*/
-
-int RngStream_SetPackageSeed (unsigned long seed[6])
+int RngStream_SetPackageSeed (uint64_t seed[6])
 {
    int i;
    if (CheckSeed (seed))
@@ -401,45 +340,14 @@ int RngStream_SetPackageSeed (unsigned long seed[6])
 
 /*-------------------------------------------------------------------------*/
 
-int RngStream_SetSeed (RngStream g, unsigned long seed[6])
+int RngStream_SetSeed (RngStream g, uint64_t seed[6])
 {
    int i;
    if (CheckSeed (seed))
       return -1;                    /* FAILURE */
    for (i = 0; i < 6; ++i)
-      g->Cg[i] = g->Bg[i] = g->Ig[i] = seed[i];
+      g->Cg[i] = g->Ig[i] = seed[i];
    return 0;                       /* SUCCESS */ 
-}
-
-/*-------------------------------------------------------------------------*/
-
-void RngStream_AdvanceState (RngStream g, long e, long c)
-{
-   double B1[3][3], C1[3][3], B2[3][3], C2[3][3];
-
-   if (e > 0) {
-      MatTwoPowModM (A1p0, B1, m1, e);
-      MatTwoPowModM (A2p0, B2, m2, e);
-   } else if (e < 0) {
-      MatTwoPowModM (InvA1, B1, m1, -e);
-      MatTwoPowModM (InvA2, B2, m2, -e);
-   }
-
-   if (c >= 0) {
-      MatPowModM (A1p0, C1, m1, c);
-      MatPowModM (A2p0, C2, m2, c);
-   } else {
-      MatPowModM (InvA1, C1, m1, -c);
-      MatPowModM (InvA2, C2, m2, -c);
-   }
-
-   if (e) {
-      MatMatModM (B1, C1, C1, m1);
-      MatMatModM (B2, C2, C2, m2);
-   }
-
-   MatVecModM (C1, g->Cg, g->Cg, m1);
-   MatVecModM (C2, &g->Cg[3], &g->Cg[3], m2);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -477,22 +385,11 @@ void RngStream_WriteStateFull (RngStream g)
    if (g == NULL)
       return;
    printf ("The RngStream");
-   if (g->name && (strlen (g->name) > 0))
-      printf (" %s", g->name);
-   printf (":\n   Anti = %s\n", (g->Anti ? "true" : "false"));
-   printf ("   IncPrec = %s\n", (g->IncPrec ? "true" : "false"));
-
    printf ("   Ig = { ");
    for (i = 0; i < 5; i++) {
       printf ("%lu, ", (unsigned long) (g->Ig[i]));
    }
    printf ("%lu }\n", (unsigned long) g->Ig[5]);
-
-   printf ("   Bg = { ");
-   for (i = 0; i < 5; i++) {
-      printf ("%lu, ", (unsigned long) (g->Bg[i]));
-   }
-   printf ("%lu }\n", (unsigned long) g->Bg[5]);
 
    printf ("   Cg = { ");
    for (i = 0; i < 5; i++) {
@@ -503,26 +400,9 @@ void RngStream_WriteStateFull (RngStream g)
 
 /*-------------------------------------------------------------------------*/
 
-void RngStream_IncreasedPrecis (RngStream g, int incp)
-{
-   g->IncPrec = incp;
-}
-
-/*-------------------------------------------------------------------------*/
-
-void RngStream_SetAntithetic (RngStream g, int a)
-{
-   g->Anti = a;
-}
-
-/*-------------------------------------------------------------------------*/
-
 double RngStream_RandU01 (RngStream g)
 {
-   if (g->IncPrec)
-      return U01d (g);
-   else
-      return U01 (g);
+   return U01 (g);
 }
 
 /*-------------------------------------------------------------------------*/
