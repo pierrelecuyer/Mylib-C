@@ -24,7 +24,7 @@ A Small Collection of Old Basic Utilities in C
   separate from the package directory.
  
 	```console
-	./configure --prefix= &lt;install directory> --disable-shared
+	./configure --prefix= <install directory> --disable-shared
 	```
 
   For example, if you want to install it in the directory usr in the
