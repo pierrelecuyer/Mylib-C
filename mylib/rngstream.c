@@ -2,7 +2,7 @@
  *
  * File:           RngStream.c for multiple streams of Random Numbers
  * Language:       ANSI C
- * Copyright:      Pierre L'Ecuyer and Université de Montréal 
+ * Copyright:      Université de Montréal 
  *
  * If you use this software for work leading to publications, 
  * please cite the following relevant articles in which MRG32k3a 
@@ -28,7 +28,6 @@
 /* Private part.                                                       */
 /*---------------------------------------------------------------------*/
 
-
 #define norm  2.328306549295727688e-10
 #define m1    4294967087
 #define m2    4294944443
@@ -48,63 +47,23 @@ static double nextSeed[6] = { 12345, 12345, 12345, 12345, 12345, 12345 };
 
 
 /* The following are the transition matrices of the two MRG components */
-/* (in matrix form), raised to the powers -1, 1, 2^76, and 2^127, resp.*/
-static double InvA1[3][3] = {          /* Inverse of A1p0 */
-          { 184888585.0,   0.0,  1945170933.0 },
-          {         1.0,   0.0,           0.0 },
-          {         0.0,   1.0,           0.0 }
+/* (in matrix form), raised to the power 2^127. */
+static int64_t A1p127[3][3] = {
+          {    2427906178, 3580155704,  949770784 }, 
+          {     226153695, 1230515664, 3580155704 },
+          {    1988835001,  986791581, 1230515664 }
           };
-
-static double InvA2[3][3] = {          /* Inverse of A2p0 */
-          {      0.0,  360363334.0,  4225571728.0 },
-          {      1.0,          0.0,           0.0 },
-          {      0.0,          1.0,           0.0 }
+static int64_t A2p127[3][3] = {
+          {    1464411153,  277697599, 1610723613 },
+          {      32183930, 1464411153, 1022607788 },
+          {    2824425944,   32183930, 2093834863 }
           };
-
-static double A1p0[3][3] = {
-          {       0.0,        1.0,       0.0 },
-          {       0.0,        0.0,       1.0 },
-          { -810728.0,  1403580.0,       0.0 }
-          };
-
-static double A2p0[3][3] = {
-          {        0.0,        1.0,       0.0 },
-          {        0.0,        0.0,       1.0 },
-          { -1370589.0,        0.0,  527612.0 }
-          };
-
-static double A1p76[3][3] = {
-          {      82758667.0, 1871391091.0, 4127413238.0 }, 
-          {    3672831523.0,   69195019.0, 1871391091.0 }, 
-          {    3672091415.0, 3528743235.0,   69195019.0 }
-          };
-
-static double A2p76[3][3] = {
-          {    1511326704.0, 3759209742.0, 1610795712.0 }, 
-          {    4292754251.0, 1511326704.0, 3889917532.0 }, 
-          {    3859662829.0, 4292754251.0, 3708466080.0 }
-          };
-
-static double A1p127[3][3] = {
-          {    2427906178.0, 3580155704.0,  949770784.0 }, 
-          {     226153695.0, 1230515664.0, 3580155704.0 },
-          {    1988835001.0,  986791581.0, 1230515664.0 }
-          };
-
-static double A2p127[3][3] = {
-          {    1464411153.0,  277697599.0, 1610723613.0 },
-          {      32183930.0, 1464411153.0, 1022607788.0 },
-          {    2824425944.0,   32183930.0, 2093834863.0 }
-          };
-
-
 
 /*-------------------------------------------------------------------------*/
 
 
-static double MultModM (double a, double s, double c, double m)
+static double MultModM (double a, double s, double c, double m) {
    /* Compute (a*s + c) % m. m must be < 2^35.  Works also for s, c < 0 */
-{
    double v;
    long a1;
    v = a * s + c;
@@ -126,97 +85,28 @@ static double MultModM (double a, double s, double c, double m)
 
 /*-------------------------------------------------------------------------*/
 
-static void MatVecModM (double A[3][3], double s[3], double v[3], double m)
+/*   A verifier et tester !!!!!  Il y a des conditions ....   certain si "Direct" est ok.  */
+
+static void MatVecModM (int64_t A[3][3], int64_t s[3], int64_t v[3], int64_t m)
    /* Returns v = A*s % m.  Assumes that -m < s[i] < m. */
    /* Works even if v = s. */
 {
    int i;
-   double x[3];
+   int64_t x[3];
    for (i = 0; i < 3; ++i) {
-      x[i] = MultModM (A[i][0], s[0], 0.0, m);
-      x[i] = MultModM (A[i][1], s[1], x[i], m);
-      x[i] = MultModM (A[i][2], s[2], x[i], m);
+      x[i] = num_MultModDirect (A[i][0], s[0], 0.0, m);
+      x[i] = num_MultModDirect (A[i][1], s[1], x[i], m);
+      x[i] = num_MultModDirect (A[i][2], s[2], x[i], m);
    }
    for (i = 0; i < 3; ++i)
       v[i] = x[i];
 }
 
-
 /*-------------------------------------------------------------------------*/
-
-static void MatMatModM (double A[3][3], double B[3][3], double C[3][3],
-                        double m)
-   /* Returns C = A*B % m. Work even if A = C or B = C or A = B = C. */
-{
-   int i, j;
-   double V[3], W[3][3];
-   for (i = 0; i < 3; ++i) {
-      for (j = 0; j < 3; ++j)
-         V[j] = B[j][i];
-      MatVecModM (A, V, V, m);
-      for (j = 0; j < 3; ++j)
-         W[j][i] = V[j];
-   }
-   for (i = 0; i < 3; ++i) {
-      for (j = 0; j < 3; ++j)
-         C[i][j] = W[i][j];
-   }
-}
-
-
-/*-------------------------------------------------------------------------*/
-
-static void MatTwoPowModM (double A[3][3], double B[3][3], double m, long e)
-  /* Compute matrix B = (A^(2^e) % m);  works even if A = B */
-{
-   int i, j;
-
-   /* initialize: B = A */
-   if (A != B) {
-      for (i = 0; i < 3; i++) {
-         for (j = 0; j < 3; ++j)
-            B[i][j] = A[i][j];
-      }
-   }
-   /* Compute B = A^{2^e} */
-   for (i = 0; i < e; i++)
-      MatMatModM (B, B, B, m);
-}
-
-
-/*-------------------------------------------------------------------------*/
-
-static void MatPowModM (double A[3][3], double B[3][3], double m, long n)
-   /* Compute matrix B = A^n % m ;  works even if A = B */
-{
-   int i, j;
-   double W[3][3];
-
-   /* initialize: W = A; B = I */
-   for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; ++j) {
-         W[i][j] = A[i][j];
-         B[i][j] = 0.0;
-      }
-   }
-   for (j = 0; j < 3; ++j)
-      B[j][j] = 1.0;
-
-   /* Compute B = A^n % m using the binary decomposition of n */
-   while (n > 0) {
-      if (n % 2)
-         MatMatModM (W, B, B, m);
-      MatMatModM (W, W, W, m);
-      n /= 2;
-   }
-}
-
-
-/*-------------------------------------------------------------------------*/
-
-/* This part is slightly adapted from the code written by Sebastiano Vigna (vigna@acm.org)
+/* This part is adapted from the code written by Sebastiano Vigna (vigna@acm.org)
 
 static double U01 (RngStream g) {
+   /*  Maybe these constants could
    const int64_t m1 = INT64_C(4294967087);
    const int64_t m2 = INT64_C(4294944443);
    const int32_t a12 = INT32_C(1403580);
