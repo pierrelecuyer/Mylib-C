@@ -30,15 +30,15 @@
 
 
 #define norm  2.328306549295727688e-10
-#define m1    4294967087.0
-#define m2    4294944443.0
-#define a12     1403580.0
-#define a13n     810728.0
-#define a21      527612.0
-#define a23n    1370589.0
+#define m1    4294967087
+#define m2    4294944443
+#define a12      1403580
+#define a13n      810728
+#define a21       527612
+#define a23n     1370589
 
-#define two17   131072.0
-#define two53   9007199254740992.0
+#define two17   131072
+#define two53   9007199254740992
 #define fact  5.9604644775390625e-8    /* 1 / 2^24 */
 
 
@@ -214,35 +214,33 @@ static void MatPowModM (double A[3][3], double B[3][3], double m, long n)
 
 /*-------------------------------------------------------------------------*/
 
-/*   !!!!!!!     Replace by the faster 64-bit code.    */
+/* This part is slightly adapted from the code written by Sebastiano Vigna (vigna@acm.org)
 
-static double U01 (RngStream g)
-{
-   long k;
-   double p1, p2, u;
+static double U01 (RngStream g) {
+   const int64_t m1 = INT64_C(4294967087);
+   const int64_t m2 = INT64_C(4294944443);
+   const int32_t a12 = INT32_C(1403580);
+   const int32_t a13 = INT32_C(810728);
+   const int32_t a21 = INT32_C(527612);
+   const int32_t a23 = INT32_C(1370589);
+   const int64_t corr1 = (m1 * a13);
+   const int64_t corr2 = (m2 * a23);
+   const double norm = 0x1.000000d00000bp-32;
 
-   /* Component 1 */
-   p1 = a12 * g->Cg[1] - a13n * g->Cg[0];
-   k = p1 / m1;
-   p1 -= k * m1;
-   if (p1 < 0.0)
-      p1 += m1;
+   int64_t p, r;
+   r = g->Cg[2] - g->Cg[5];
+	 r -= m1 * ((r - 1) >> 63);
+
+   p = (a12 * g->Cg[1] - a13 * g->Cg[0] + corr1) % m1;
    g->Cg[0] = g->Cg[1];
    g->Cg[1] = g->Cg[2];
-   g->Cg[2] = p1;
-
-   /* Component 2 */
-   p2 = a21 * g->Cg[5] - a23n * g->Cg[3];
-   k = p2 / m2;
-   p2 -= k * m2;
-   if (p2 < 0.0)
-      p2 += m2;
+   g->Cg[2] = p;
+   p = (a21 * g->Cg[5] - a23 * g->Cg[3] + corr2) % m2;
    g->Cg[3] = g->Cg[4];
    g->Cg[4] = g->Cg[5];
-   g->Cg[5] = p2;
+   g->Cg[5] = p;
 
-   /* Combination */
-   return u = ((p1 > p2) ? (p1 - p2) * norm : (p1 - p2 + m1) * norm);
+   return r * norm;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -411,3 +409,5 @@ int RngStream_RandInt (RngStream g, int i, int j)
 {
    return i + (int) ((j - i + 1.0) * RngStream_RandU01 (g));
 }
+
+   

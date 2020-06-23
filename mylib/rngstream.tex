@@ -30,8 +30,7 @@ Substreams are not implemented here.
 typedef struct rngstream_InfoState * rngstream;
 
 struct rngstream_InfoState {
-   double Cg[6], Ig[6];
-   char *name;
+   int64_t Cg[6], Ig[6];
 };
 \endcode
  \tab
@@ -41,7 +40,7 @@ struct rngstream_InfoState {
  \endtab
 \code
 
-int rngstream_SetPackageSeed (unsigned long seed[6]);
+int rngstream_SetPackageSeed (int64_t seed[6]);
 \endcode
   \tab  Sets the seed of the package {\tt rngstreams} to the 
    six integers in the vector {\tt seed}.
@@ -86,7 +85,7 @@ void rngstream_ResetStartStream (rngstream g);
  \endtab
 \code
 
-int rngstream_SetSeed (rngstream g, unsigned long seed[6]);
+int rngstream_SetSeed (rngstream g, int64_t seed[6]);
 \endcode
  \tab  Sets the initial seed $I_g$ of stream {\tt g}
   to the vector {\tt seed}.  This vector must satisfy the same 
@@ -100,7 +99,7 @@ int rngstream_SetSeed (rngstream g, unsigned long seed[6]);
  \endtab
 \code
 
-void rngstream_GetState (rngstream g, unsigned long seed[6]);
+void rngstream_GetState (rngstream g, int64_t seed[6]);
 \endcode
  \tab Returns in {\tt seed[]} the current state $C_g$ of stream {\tt g}.
   This is convenient if we want to save the state for subsequent use.  
@@ -128,12 +127,6 @@ int rngstream_RandInt (rngstream g, int i, int j);
  \tab Returns a (pseudo)random number from the discrete uniform 
    distribution over the integers $\{i,i+1,\dots,j\}$, using stream {\tt g}.  
    Makes one call to {\tt rngstream\_RandU01}.
- \endtab
-\code
-
-uint32_t rngstream_Rand32bits (rngstream g);
-\endcode
- \tab Returns a block of 32 pseudorandom bits, using stream {\tt g}.  
  \endtab
 \code\hide
 
