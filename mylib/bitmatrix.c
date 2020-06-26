@@ -76,6 +76,30 @@ void bitmatrix_display (bitmatrix_matrix *m, int t, int l, int r)
 	printf ("\n\n");
 }
 
+int bitmatrix_hammingWeight (bitmatrix_matrix *m, int r)
+{
+	int i;
+	int weight = 0;
+	for (i=0; i<m->t; i++) {
+		weight = bitvector_hammingWeight(&m->rows[r][i])+weight;
+	}
+
+	return weight;
+}
+
+int bitmatrix_weight (bitmatrix_matrix *m)
+{
+	int i,j;
+	int weight = 0;
+	for (i=0; i<m->r; i++) {
+		for (j=0; j<m->t; j++) {
+			weight = bitvector_hammingWeight(&m->rows[i][j])+weight;
+		}
+	}
+
+	return weight;
+}
+
 
 void bitmatrix_copypart (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
                          int r, int t)

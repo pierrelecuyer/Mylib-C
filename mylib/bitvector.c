@@ -127,6 +127,20 @@ void bitvector_clearBit (bitvector_vector *v, int b)
 }
 
 
+int bitvector_hammingWeight (bitvector_vector *v)
+{
+	int weight = 0;
+	int i,j;
+	for (i=0; i<v->n; i++) {
+		for (j=0; j<bitvector_WL; j++) {
+			weight = bitvector_getBit(v,j) + weight;
+		}
+	}
+
+	return weight;
+}
+
+
 void bitvector_canonical (bitvector_vector *v, int t)
 {
 	int n;

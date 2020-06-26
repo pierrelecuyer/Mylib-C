@@ -1,13 +1,13 @@
 \defmodule{bitmatrix}
 
-This module offers facilities to manipulate matrices of binary vectors  
+This module offers facilities to manipulate matrices of binary vectors
 (from the module \texttt{bitvector}).
 More specifically, each matrix has {\tt r} rows and {\tt t} columns,
 and each entry is an {\tt b}-bit binary vector.
-By taking {\tt t=1}, we get an ordinary binary matrix of {\tt r} rows and 
+By taking {\tt t=1}, we get an ordinary binary matrix of {\tt r} rows and
 {\tt b} columns of bits.
 The more general for with ${\tt t} > 1$ is very convenient for the analysis of
-equidistribution properties of $\FF_2$-linear random number generators 
+equidistribution properties of $\FF_2$-linear random number generators
 \cite{rLEC05a,rLEC09a,rPAN04t}.
 
 \bigskip\hrule
@@ -46,8 +46,8 @@ void bitmatrix_allocate (bitmatrix_matrix* m, int r, int b, int t);
 Allocates space for a {\tt bitmatrix\_matrix} with {\tt r} rows and {\tt t} columns,
 for which each entry is an {\tt b}-bit binary vector.
 On each row, the function allocates space for {\tt t} bit vectors of {\tt b} bits each.
-To allocate a simple $128 \times 128$ binary matrix, for example, one can invoke 
-{\tt bitmatrix\_allocate (m, 128, 128, 1)}.  
+To allocate a simple $128 \times 128$ binary matrix, for example, one can invoke
+{\tt bitmatrix\_allocate (m, 128, 128, 1)}.
 %  in module \texttt{mecf}.
 \endtab
 \code
@@ -62,37 +62,51 @@ void bitmatrix_free (bitmatrix_matrix *m);
 void bitmatrix_display (bitmatrix_matrix *m, int t, int l, int r);
 \endcode
  \tab
-Displays (print) the submatrix of {\tt *m} defined by the first {\tt r} rows and the 
-first {\tt l} bits of the first {\tt t} bit vectors.  
+Displays (print) the submatrix of {\tt *m} defined by the first {\tt r} rows and the
+first {\tt l} bits of the first {\tt t} bit vectors.
  \endtab
  \code
 
-void bitmatrix_copypart (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
+int bitmatrix_hammingWeight (bitmatrix_matrix *m, int r);
+\endcode
+ \tab
+ Returns the Hamming weight of row {\tt r} in matrix {\tt *m}.
+ \endtab
+ \code
+
+int bitmatrix_weight (bitmatrix_matrix *m);
+\endcode
+ \tab
+ Returns the sum of non-zero entries in matrix {\tt *m}.
+ \endtab
+ \code
+
+void bitmatrix_copypart (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
                          int r, int t);
 \endcode
  \tab
-Copies the first {\tt t} bit vectors of the first {\tt r} rows of 
+Copies the first {\tt t} bit vectors of the first {\tt r} rows of
 {\tt m2} into the first {\tt t} bit vectors of the first {\tt r} rows of {\tt m1}.
  \endtab
 \code
 
-void bitmatrix_copySpecial (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
+void bitmatrix_copySpecial (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
                             int nl, int *col, int t);
 \endcode
  \tab
-Copies the ({\tt t}-1) bit vectors indicated by the array {\tt col}, 
-plus the first bit vector, on each of the {\tt nl} first rows of the matrix 
+Copies the ({\tt t}-1) bit vectors indicated by the array {\tt col},
+plus the first bit vector, on each of the {\tt nl} first rows of the matrix
 {\tt m2} to the first {\tt t} bit vectors
 on each of the first {\tt nl} rows of the matrix {\tt m1}.
  \endtab
 \code
 
-void bitmatrix_transpose (bitmatrix_matrix *m1, bitmatrix_matrix *m2, 
+void bitmatrix_transpose (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
                           int r, int t, int b);
 \endcode
  \tab
-Transposes the {\tt t} matrices of dimension {\tt r}$\times${\tt b} 
-found in {\tt m2} and puts the result in {\tt m1}. 
+Transposes the {\tt t} matrices of dimension {\tt r}$\times${\tt b}
+found in {\tt m2} and puts the result in {\tt m1}.
  \endtab
 \code
 
@@ -107,20 +121,20 @@ void bitmatrix_xorVect (bitmatrix_matrix *m, int r, int s, int min, int max);
 \endcode
  \tab
 Performs a exclusive-or between the {\tt s}-th and {\tt r}-th rows of {\tt m},
-for the {\tt min}-th to the ({\tt max}-1)-th bit vectors only.  
+for the {\tt min}-th to the ({\tt max}-1)-th bit vectors only.
 The result is put in row {\tt r} of {\tt m}.
 %  {\tt m[r]} = {\tt m[r]} \verb1^1 {\tt m[s]}
  \endtab
-\code 
+\code
 
 lebool bitmatrix_diagonalize (bitmatrix_matrix *m, int kg, int t, int l, int *gr);
 \endcode
 \tab
-Diagonalizes the sub matrix of {\tt m} that consist of the first {\tt kg} rows 
+Diagonalizes the sub matrix of {\tt m} that consist of the first {\tt kg} rows
 and the first {\tt l} bits of the first {\tt t} bit vectors on each row.
-Returns {\tt TRUE} if the sub matrix is of full rank {\tt t}*{\tt l}.  
-In this case, the variable pointed by {\tt gr} remains unchanged.  
-Otherwise, returns FALSE and the variable pointed by {\tt gr} is changed 
+Returns {\tt TRUE} if the sub matrix is of full rank {\tt t}*{\tt l}.
+In this case, the variable pointed by {\tt gr} remains unchanged.
+Otherwise, returns FALSE and the variable pointed by {\tt gr} is changed
 to the value of {\tt t} for which the function would have returned {\tt TRUE}.
  \endtab
 \code
@@ -128,16 +142,16 @@ to the value of {\tt t} for which the function would have returned {\tt TRUE}.
 int bitmatrix_gaussianElimination (bitmatrix_matrix *m, int r, int l, int t);
 \endcode
  \tab
-Returns the rank of the submatrix of {\tt m} comprised of the first {\tt r} rows 
+Returns the rank of the submatrix of {\tt m} comprised of the first {\tt r} rows
 and the first {\tt l} bits of the first {\tt t} bit vectors on each row.
  \endtab
 \code
 
-int bitmatrix_specialGaussianElimination (bitmatrix_matrix *m, 
+int bitmatrix_specialGaussianElimination (bitmatrix_matrix *m,
                                           int r, int l, int t, int *indices);
 \endcode
  \tab
-Returns the rank of the submatrix of {\tt m} formed by the first {\tt r} rows 
+Returns the rank of the submatrix of {\tt m} formed by the first {\tt r} rows
 and the first {\tt l} bits of the bit vectors indicated by the array {\tt indices}.
  \endtab
  \code
@@ -145,8 +159,8 @@ and the first {\tt l} bits of the bit vectors indicated by the array {\tt indice
 int bitmatrix_completeElimination (bitmatrix_matrix *m, int r, int l, int t);
 \endcode
  \tab
-This function tries to form an identity matrix by elimination. 
-It returns the rank of the submatrix of {\tt m} comprised of the first 
+This function tries to form an identity matrix by elimination. If it fails, it returns {\tt FALSE}.
+Otherwise, it returns the rank of the submatrix of {\tt m} comprised of the first
 {\tt r} rows and the first {\tt l} bits of the first {\tt t} bit vectors on each row.
  \endtab
 \code
@@ -156,12 +170,12 @@ lebool bitmatrix_inverse (bitmatrix_matrix *minv, bitmatrix_matrix *m);
 \tab
 Tries computing the inverse of {\tt m}, returns {\tt TRUE} if it succeeded, and puts the results in {\tt minv}.
 Otherwise, returns {\tt FALSE}.
-The sub matrices of the {\tt Matrix}s pointed by {\tt m} and {\tt minv} that 
+The sub matrices of the {\tt Matrix}s pointed by {\tt m} and {\tt minv} that
 are considered are the ones composed of only the first column of the bit vectors.
  \endtab
 \code
 
-void bitmatrix_productByVector (bitvector_vector *v1, bitmatrix_matrix *m, 
+void bitmatrix_productByVector (bitvector_vector *v1, bitmatrix_matrix *m,
                                 bitvector_vector *v2);
 \endcode
 \tab
@@ -174,7 +188,7 @@ void bitmatrix_product (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
 \endcode
 \tab
 Compute the matrix product of {\tt m2} by {\tt m3} and puts the results in {\tt m1}.
-Only the first submatrices are considered (i.e. the matrices composed of the first column of bit vectors). 
+Only the first submatrices are considered (i.e. the matrices composed of the first column of bit vectors).
 \endtab
 \code
 
