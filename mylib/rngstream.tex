@@ -8,7 +8,7 @@ using ``\texttt{double}'' variables, whereas here it is implemented using 64-bit
 using the code proposed by S. Vigna.
 The seed of the RNG, and the state of a stream at any given step,
 are 6-dimensional vectors of 32-bit integers.
-The default initial seed of the first stream is 
+The default initial seed of the first stream is
 $(12345, 12345, 12345, 12345, 12345, 12345)$,
 and the seeds of the successive streams are spaced by $2^{127}$ steps.
 Substreams are not implemented here.
@@ -23,6 +23,7 @@ Substreams are not implemented here.
 #define RNGSTREAM_H
 \endhide
 #include "gdef.h"
+#include "util.h"
 #include "num.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,39 +43,39 @@ struct rngstream_InfoState {
 
 int rngstream_SetPackageSeed (int64_t seed[6]);
 \endcode
-  \tab  Sets the seed of the package {\tt rngstreams} to the 
+  \tab  Sets the seed of the package {\tt rngstreams} to the
    six integers in the vector {\tt seed}.
    This will be the initial state of the first stream.
    If this procedure is not called, the default initial seed
    is $(12345, 12345, 12345, 12345, 12345, 12345)$.
    If it is called, the first 3 values of the seed must all be
    less than $m_1 = 4294967087$, and not all 0;
-   and the last 3 values 
+   and the last 3 values
    must all be less than $m_2 = 4294944443$, and not all 0.
-   Returns $-1$ for invalid seeds, and 0 otherwise.
+   Returns 0 for valid seeds and exits otherwise.
  \endtab
 \code
 
 rngstream rngstream_CreateStream ();
 \endcode
- \tab Creates and returns a new stream with identifier {\tt name},
+ \tab Creates and returns a new stream
    whose state variable is of type {\tt rngstream\_InfoState}.
    This procedure reserves space to keep the information relative to
    the {\tt rngstream}, initializes its seed $I_g$,
    sets $B_g$ and $C_g$ equal to $I_g$, sets its antithetic and precision
    switches to 0.
-   The seed $I_g$ is equal to the initial seed of the package given by 
+   The seed $I_g$ is equal to the initial seed of the package given by
    {\tt rngstream\_SetPackageSeed} if this is the first stream created,
    otherwise it is $Z$ steps ahead of that of the most recently
    created stream.
  \endtab
 \code
 
-void rngstream_DeleteStream (rngstream *pg);
+void rngstream_DeleteStream (rngstream *p);
 \endcode
- \tab Deletes the stream {\tt *pg} created previously 
+ \tab Deletes the stream {\tt *pg} created previously
   by {\tt rngstream\_CreateStream}, and recovers its memory.
-  Otherwise, does nothing. 
+  Otherwise, does nothing.
  \endtab
 \code
 
@@ -88,21 +89,21 @@ void rngstream_ResetStartStream (rngstream g);
 int rngstream_SetSeed (rngstream g, int64_t seed[6]);
 \endcode
  \tab  Sets the initial seed $I_g$ of stream {\tt g}
-  to the vector {\tt seed}.  This vector must satisfy the same 
+  to the vector {\tt seed}.  This vector must satisfy the same
   conditions as in {\tt rngstream\_SetPackageSeed}.
   The stream is then reset to this initial seed.
   The states and seeds of the other streams are not modified.
   As a result, after calling this procedure, the initial seeds
   of the streams are no longer spaced $Z$ values apart.
-  This function should be invoked only at the beginning of the program. 
-  Returns $-1$ for invalid seeds, and 0 otherwise.
+  This function should be invoked only at the beginning of the program.
+  Returns 0 for valid seeds and exits otherwise.
  \endtab
 \code
 
 void rngstream_GetState (rngstream g, int64_t seed[6]);
 \endcode
  \tab Returns in {\tt seed[]} the current state $C_g$ of stream {\tt g}.
-  This is convenient if we want to save the state for subsequent use.  
+  This is convenient if we want to save the state for subsequent use.
  \endtab
 \code
 
@@ -115,8 +116,8 @@ void rngstream_WriteState (rngstream g);
 double rngstream_RandU01 (rngstream g);
 \endcode
  \tab Returns a (pseudo)random number from the uniform distribution
-   over the interval $(0,1)$, using stream {\tt g}, 
-   after advancing the state by one step.  
+   over the interval $(0,1)$, using stream {\tt g},
+   after advancing the state by one step.
    The returned number has 32 bits of precision in the sense that it is
    always a multiple of $1/(2^{32}-208)$.
  \endtab
@@ -124,8 +125,8 @@ double rngstream_RandU01 (rngstream g);
 
 int rngstream_RandInt (rngstream g, int i, int j);
 \endcode
- \tab Returns a (pseudo)random number from the discrete uniform 
-   distribution over the integers $\{i,i+1,\dots,j\}$, using stream {\tt g}.  
+ \tab Returns a (pseudo)random number from the discrete uniform
+   distribution over the integers $\{i,i+1,\dots,j\}$, using stream {\tt g}.
    Makes one call to {\tt rngstream\_RandU01}.
  \endtab
 \code\hide
@@ -133,4 +134,3 @@ int rngstream_RandInt (rngstream g, int i, int j);
 #endif
 \endhide
 \endcode
-
