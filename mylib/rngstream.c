@@ -96,14 +96,14 @@ static int CheckSeed (int64_t seed[6]) {
 	}
 
 	for (i = 3; i < 6; ++i) {
-        sprintf(str, "Seed[%1d] >= m2, Seed is not set.\n", i);
+		sprintf(str, "Seed[%1d] >= m2, Seed is not set.\n", i);
 		util_Assert(seed[i] < m2,str);
 	}
 
-    util_Assert(!(seed[0] == 0 && seed[1] == 0 && seed[2] == 0),"First 3 seeds = 0.");
-    util_Assert(!(seed[3] == 0 && seed[4] == 0 && seed[5] == 0),"Last 3 seeds = 0.");
+	util_Assert(!(seed[0] == 0 && seed[1] == 0 && seed[2] == 0),"First 3 seeds = 0.");
+	util_Assert(!(seed[3] == 0 && seed[4] == 0 && seed[5] == 0),"Last 3 seeds = 0.");
 
-    return 0;
+	return 0;
 }
 
 
