@@ -38,7 +38,6 @@ AC_CHECK_TYPES([long long, uint32_t, uint8_t])
 LIBS="$LIBM $LIBS"
 AC_CHECK_FUNCS([random erf lgamma log1p])
 
-AC_CONFIG_FILES([Makefile
-                 include/Makefile mylib/Makefile examples/Makefile unit-tests/Makefile])
+AC_CONFIG_FILES([Makefile include/Makefile mylib/Makefile examples/Makefile unit-tests/Makefile])
 AC_SUBST([LIBM])
 AC_OUTPUT
