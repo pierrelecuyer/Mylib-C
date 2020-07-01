@@ -4,15 +4,15 @@ This module defines sets of bits and useful operations for such sets.
 Some of these operations are implemented as macros.
 Each bit set is stored as a 64-bit unsigned integer, whose bits are simply interpreted
 as indicators of which elements belong to the set.
-The bits are numbered from 0 to 63, and 
+The bits are numbered from 0 to 63, and
 \emph{bit 0 is the least significant bit} of this word,
 which means that the bits are numbered from right to left.
-\hpierre{Here the bits are numbered from the right, whereas they are 
+\hpierre{Here the bits are numbered from the right, whereas they are
   numbered from the left in \texttt{bitvectors}.}%
 %	Are there bitsets like this in other libraries?}
 If bit $j$ is 1, then element $j$ is a member of the set, otherwise it is not.
 Other operations not described here can also be applied directly
-to the \texttt{uint64\_t} variable. 
+to the \texttt{uint64\_t} variable.
 
 
 \code\hide
@@ -27,8 +27,8 @@ to the \texttt{uint64\_t} variable.
 \guisec{Constants}
 \code
 
-const uint64_t bitset_ONE = 1ULL;
-const uint64_t bitset_ALLONES = 18446744073709551615ULL;   
+extern const uint64_t bitset_ONE;
+extern const uint64_t bitset_ALLONES;   
 \endcode
 \tab
   The two constants 1 and $2^{64}-1$ (a bitset with all ones).
@@ -38,10 +38,10 @@ const uint64_t bitset_ALLONES = 18446744073709551615ULL;
 
 extern uint64_t bitset_MASK1[];
 \endcode
- \tab {\tt bitset\_MASK1[j]} has only \emph{bit} $j$ set to 1 and all other 
-  bits set to 0. 
-  \pierre{Not sure if it is worthwhile to store and retrieve all these constants. 
-	  See \url{http://c-faq.com/misc/bitsets.html} and 
+ \tab {\tt bitset\_MASK1[j]} has only \emph{bit} $j$ set to 1 and all other
+  bits set to 0.
+  \pierre{Not sure if it is worthwhile to store and retrieve all these constants.
+	  See \url{http://c-faq.com/misc/bitsets.html} and
     \url{https://github.com/iplinux/x11proto-trap/blob/master/xtrapbits.h}
 		for alternatives.}
  \endtab
@@ -49,8 +49,8 @@ extern uint64_t bitset_MASK1[];
 
 extern uint64_t bitset_MASK[];
 \endcode
- \tab {\tt bitset\_MASK[j]} has all \emph{the first $j$ bits} set to 1 and all other 
-  bits set to 0.  
+ \tab {\tt bitset\_MASK[j]} has all \emph{the first $j$ bits} set to 1 and all other
+  bits set to 0.
  \endtab
 \fi  %%%%%
 
@@ -60,7 +60,7 @@ extern uint64_t bitset_MASK[];
 
 typedef uint64_t bitset_BitSet;
 \endcode
- \tab  A set of bits. The bits are numbered starting from 0 for the least significant bit. 
+ \tab  A set of bits. The bits are numbered starting from 0 for the least significant bit.
  \endtab
 
 
@@ -71,14 +71,14 @@ typedef uint64_t bitset_BitSet;
 
 #define bitset_Mask1(b) (bitset_ONE << b)
 \endcode
- \tab Gives a bit set with only bit $b$ set to 1 and all other bits set to 0. 
+ \tab Gives a bit set with only bit $b$ set to 1 and all other bits set to 0.
  \endtab
 \code
 
 #define bitset_MaskLow(b) (bitset_ALLONES >> (64-b))
 \endcode
- \tab Gives a bit set with all \emph{the lowest (rightmost) $b$ bits} set to 1 
-  and all other bits set to 0.  
+ \tab Gives a bit set with all \emph{the lowest (rightmost) $b$ bits} set to 1
+  and all other bits set to 0.
  \endtab
 \code
 
@@ -127,14 +127,14 @@ typedef uint64_t bitset_BitSet;
    (s) <<= (r);   (s) |= temp;   (s) &= bitset_MaskLow(b); \
    } while (0)
 \endcode\endhide
-\tab  Rotates the {\tt b} lowest (least significant) bits of 
+\tab  Rotates the {\tt b} lowest (least significant) bits of
   the set {\tt s} by {\tt r} positions to the left.
   Here, {\tt s} is considered as a {\tt b}-bit number kept
   in the least significant bits of {\tt s}.
  \endtab
 
 \noindent
-{\tt\#define bitset\_RotateRightLocal(s, b, r)}  ... 
+{\tt\#define bitset\_RotateRightLocal(s, b, r)}  ...
 
 \hide\code
 #define bitset_RotateRightLocal(s, b, r) do { \
@@ -142,7 +142,7 @@ typedef uint64_t bitset_BitSet;
    (s) <<= ((b) - (r));   (s) |= temp;   (s) &= bitset_MaskLow(b); \
    } while (0)
 \endcode\endhide
- \tab  Rotates the {\tt b} lowest (least significant) bits of 
+ \tab  Rotates the {\tt b} lowest (least significant) bits of
   the set {\tt s} by {\tt r} positions to the right.
   Here, {\tt s} is considered as a {\tt b}-bit number kept
   in the least significant bits of {\tt s}.
@@ -158,7 +158,7 @@ bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b);
 \tab Reverses the order of the {\tt b} least significant bits of {\tt z}.
   Thus, if {\tt b}${}=4$ and {\tt z}${} = \dots 0011$, the returned value is $\dots 1100$.
 	\pierre{The current implementation of this function is simple and very inefficient.
-	 More efficient methods use lookup tables.   
+	 More efficient methods use lookup tables.
 	 See \url{https://graphics.stanford.edu/~seander/bithacks.html}.
 	 I think this is implemented somewhere in TestU01.}
  \endtab
