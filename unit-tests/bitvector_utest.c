@@ -510,9 +510,3 @@ void bitvector_utest_all() {
 
     printf("bitvector : all unit tests succeeded.\n");
 }
-
-
-int main(void) {
-    bitvector_utest_all();
-    return 0;
-}

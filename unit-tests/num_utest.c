@@ -87,8 +87,3 @@ void num_utest_all() {
     num_utest_InvExpon();
     printf("num : all unit tests succeeded.\n");
 }
-
-int main(void) {
-    num_utest_all();
-    return 0;
-}

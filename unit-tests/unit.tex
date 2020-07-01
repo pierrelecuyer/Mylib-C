@@ -18,6 +18,7 @@ lebool compare(double n1, double n2);
 #define assert_double(n1, n2) util_Assert(compare(n1,n2), "Failure in double comparison")
 #define assert_int64_t(n1, n2) util_Assert(n1 == n2, "Failure in 64-bit comparison");
 #define assert_uint64_t(n1, n2) util_Assert(n1 == n2, "Failure in unsigned 64-bit comparison");
+#define assert_int(n1, n2) util_Assert(n1 == n2, "Failure in int comparison");
 #define assert_str(str1, str2) util_Assert(compare(strcmp(str1,str2),0), "Failure in string comparison");
 \endcode
 

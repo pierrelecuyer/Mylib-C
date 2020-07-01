@@ -362,9 +362,3 @@ void bitmatrix_utest_all() {
 
     printf("bitmatrix : all unit tests succeeded.\n");
 }
-
-
-int main(void) {
-    bitmatrix_utest_all();
-    return 0;
-}

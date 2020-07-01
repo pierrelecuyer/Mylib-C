@@ -111,8 +111,3 @@ void num2_utest_all() {
 
     printf("num2 : all unit tests succeeded.\n");
 }
-
-int main(void) {
-    num2_utest_all();
-    return 0;
-}
