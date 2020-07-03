@@ -10,7 +10,7 @@ void rngstream_utest_RandU01() {
     rngstream_RandU01(g);
 
     int i;
-    double sum;
+    double sum = 0;
     for (i=0; i<1000; i++) {
         sum += rngstream_RandU01(g);
     }
