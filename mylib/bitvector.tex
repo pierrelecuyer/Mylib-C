@@ -52,7 +52,7 @@ void bitvector_allocate (bitvector_vector *v, int b);
 Allocates memory for a bit vector of {\tt b} bits.
 There will be $n = \lceil b/64 \rceil$ blocks of 64 bits in the structure
 and the value of $b$ is not saved.
-\pierre{We may want to save it if needed, later.}
+\hpierre{We may want to save it if needed, later.}
  \endtab
 \code
 
@@ -157,7 +157,8 @@ Returns {\tt TRUE} if at least one bit set to 1 in {\tt v1} is also set to 1 in 
  \endtab
 \code
 
-void bitvector_xor (bitvector_vector *v1, bitvector_vector *v2, bitvector_vector *v3);
+void bitvector_xor (bitvector_vector *v1, bitvector_vector *v2, 
+                    bitvector_vector *v3);
 \endcode
  \tab
 Performs a bitwise exclusive-or of the contents of \texttt{v2} and \texttt{v3},
@@ -182,7 +183,8 @@ and puts the result in \texttt{v1}.
  \endtab
 \code
 
-void bitvector_and (bitvector_vector *v1, bitvector_vector *v2, bitvector_vector *v3);
+void bitvector_and (bitvector_vector *v1, bitvector_vector *v2, 
+                    bitvector_vector *v3);
 \endcode
  \tab
 Performs a bitwise ``and'' of the contents of \texttt{v2} and \texttt{v3},
@@ -279,13 +281,15 @@ void bitvector_fillRandomBits (bitvector_vector *v);
 \endcode
  \tab
 Fills the vector {\tt v} with random bits.
- \pierre{We need to provide a local implementation of this!!!  To be done later.}
+ \pierre{This needs to be implemented!  
+    For now, use rngstreams to fill using blocks of 32 bits. 
+		I realize it would be better to use a 64-bit RNGs, however.}
  \endtab
 \code\hide
 #endif
 \endhide\endcode
 
-
+\iffalse  %%%%%%%%%%
 {\bf Other popular implementations of bit vectors:}
 
 \mp{Simple tools for bit vectors in C:  \url{http://c-faq.com/misc/bitsets.html}.
@@ -306,3 +310,4 @@ the Boost C++ library:
 \mp{In the dynamic bitsets of Boost, we  find the following:\small
 ``Each bit represents either the Boolean value true or false (1 or 0). To set a bit is to assign it 1. To clear or reset a bit is to assign it 0. To flip a bit is to change the value to 1 if it was 0 and to 0 if it was 1. Each bit has a non-negative position. A bitset x contains x.size() bits, with each bit assigned a unique position in the range [0,x.size()). The bit at position 0 is called the least significant bit and the bit at position size() - 1 is the most significant bit. When converting an instance of dynamic\_bitset to or from an unsigned long n, the bit at position i of the bitset has the same value
 as {\tt (n >> i) \& 1}.''}
+\fi   %%%%%%%%

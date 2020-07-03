@@ -62,18 +62,16 @@ rngstream rngstream_CreateStream ();
    whose state variable is of type {\tt rngstream\_InfoState}.
    This procedure reserves space to keep the information relative to
    the {\tt rngstream}, initializes its seed $I_g$,
-   sets $B_g$ and $C_g$ equal to $I_g$, sets its antithetic and precision
-   switches to 0.
+   and sets $B_g$ and $C_g$ equal to $I_g$.
    The seed $I_g$ is equal to the initial seed of the package given by
    {\tt rngstream\_SetPackageSeed} if this is the first stream created,
-   otherwise it is $Z$ steps ahead of that of the most recently
-   created stream.
+   otherwise it is $2^{127}$ steps ahead of that of the most recently created stream.
  \endtab
 \code
 
-void rngstream_DeleteStream (rngstream *p);
+void rngstream_DeleteStream (rngstream *g);
 \endcode
- \tab Deletes the stream {\tt *pg} created previously
+ \tab Deletes the stream {\tt *g} created previously
   by {\tt rngstream\_CreateStream}, and recovers its memory.
   Otherwise, does nothing.
  \endtab
@@ -94,7 +92,7 @@ int rngstream_SetSeed (rngstream g, int64_t seed[6]);
   The stream is then reset to this initial seed.
   The states and seeds of the other streams are not modified.
   As a result, after calling this procedure, the initial seeds
-  of the streams are no longer spaced $Z$ values apart.
+  of the streams are no longer spaced $2^{127}$ values apart.
   This function should be invoked only at the beginning of the program.
   Returns 0 for valid seeds and exits otherwise.
  \endtab

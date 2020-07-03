@@ -119,7 +119,7 @@ typedef uint64_t bitset_BitSet;
 \endtab
 
 \noindent
-{\tt\#define bitset\_RotateLeftLocal(s, b, r)}  ...
+{\tt\#define bitset\_RotateLeftLocal(s, b, r)}
 
 \hide\code
 #define bitset_RotateLeftLocal(s, b, r) do { \
@@ -134,7 +134,7 @@ typedef uint64_t bitset_BitSet;
  \endtab
 
 \noindent
-{\tt\#define bitset\_RotateRightLocal(s, b, r)}  ...
+{\tt\#define bitset\_RotateRightLocal(s, b, r)}
 
 \hide\code
 #define bitset_RotateRightLocal(s, b, r) do { \
@@ -166,8 +166,9 @@ bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b);
 
 void bitset_Write (char *desc, bitset_BitSet z, int b);
 \endcode
-  \tab  \pierre{Should return the string, not print it.  Then we can do whatever
-	 we want with the string.}
+  \tab  
+	\hpierre{Should return the string, not print it.  Then we can do whatever
+	    we want with the string.}
   Prints the string {\tt desc} (which may be empty), then writes the {\tt b}
 	least significant bits of {\tt z} considered as an unsigned binary number.
   This corresponds to the {\tt b} first elements of {\tt z}.
