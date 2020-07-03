@@ -21,8 +21,8 @@ lebool compare(double n1, double n2) {
 void unit_all() {
 	num_utest_all();
 	num2_utest_all();
-    bitvector_utest_all();
-    bitmatrix_utest_all();
+	bitvector_utest_all();
+	bitmatrix_utest_all();
 	rngstream_utest_all();
 	printf("<------------------------->\n");
 	printf("| All unit tests succeded.|\n");
@@ -31,5 +31,5 @@ void unit_all() {
 
 
 int main(void) {
-    unit_all();
+	unit_all();
 }
