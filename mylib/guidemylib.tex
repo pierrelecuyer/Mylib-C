@@ -204,12 +204,19 @@ This document describes a set of basic utility functions implemented in the
 C language around the years 1995--2000, to be used in the software developed in the
 \emph{Stochastic Simulation Laboratory} under the supervision of Pierre L'Ecuyer.
 Many of these tools were originally implemented earlier in the Modula-2 language,
-and have been reimplemented in C to facilitate the code translation of old 
-software from Modula-2 to C.  Some of these functions may have counterparts in
-the more recent standard C libraries, but we kept them to avoid rewriting our code.
-They are used in particular in the TestU01 and F2linearUnif libraries.
+and used in our old software to analyze and test random number generators (RNGs) back 
+in the late 1980's.  They were translated to C when our old 
+RNG software was converted from Modula-2 to C in the late 1990's.
+Some of these functions may have counterparts in recent standard C libraries, 
+but we keep them to avoid rewriting our code.
+They are used in particular in the TestU01 and F2LinearGen libraries.
 
-Contributors:  Pierre L'Ecuyer, Richard Simard, Fran\c cois Panneton,
+This reference manual is written in LaTeX and the \texttt{.tex} source files 
+are also used to produce the \texttt{.h} files, to ensure that they agree with
+the documentation.  
+\bigskip
+
+\textbf{Contributors:}  Pierre L'Ecuyer, Richard Simard, Fran\c cois Panneton,
 Francis Picard, Jean-S\'ebastien S\'en\'ecal, Simon-Olivier Laperri\`ere.
 
 \vfill
