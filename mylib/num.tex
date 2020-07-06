@@ -1,6 +1,6 @@
 \defmodule {num}
 
-This module provides some useful constants and basic tools to 
+This module provides some useful constants and basic tools to
 manipulate numbers represented in different forms.
 
 \bigskip\hrule
@@ -67,15 +67,15 @@ manipulate numbers represented in different forms.
 
 #define num_MaxTwoExp   64
 \endcode
-  \tab Powers of 2 up to {\tt num\_MaxTwoExp} are stored exactly 
+  \tab Powers of 2 up to {\tt num\_MaxTwoExp} are stored exactly
   in the array {\tt num\_TwoExp}.
   \endtab
 \code
 
-extern double num_TwoExp[];   
+extern double num_TwoExp[];
 \endcode
   \tab  Contains precomputed powers of 2.
-  One has {\tt num\_TwoExp[i]} $= 2^i$ for $0 \le i \le$ 
+  One has {\tt num\_TwoExp[i]} $= 2^i$ for $0 \le i \le$
   {\tt num\_MaxTwoExp}.
 \endtab
 \code
@@ -99,7 +99,7 @@ extern double num_TENNEGPOW[];
 \guisec{Prototypes}
 \code
 
-#define num_Log2(x) (num_1Ln2 * log(x)) 
+#define num_Log2(x) (num_1Ln2 * log(x))
 \endcode
   \tab Gives the logarithm of $x$ in base 2.
   \endtab
@@ -121,9 +121,9 @@ double num_RoundD (double x);
 
 
 int num_IsNumber (char S[]);
-\endcode 
-\tab  Returns {\tt 1} if the string {\tt S} begins with a number     
-   (with the possibility of spaces and a $+/-$ sign    
+\endcode
+\tab  Returns {\tt 1} if the string {\tt S} begins with a number
+   (with the possibility of spaces and a $+/-$ sign
    before the number). For example, `` + 2'' and ``4hello''
    return {\tt 1}, while ``$-+2$'' and ``hello'' return  {\tt 0}.
 \endtab
@@ -140,7 +140,7 @@ void num_IntToStrBase (int64_t k, int b, char S[]);
 void num_Uint2Uchar (unsigned char output[], uint64_t input[], int L);
 \endcode
   \tab Transforms the $L$ 64-bit unsigned integers contained in {\tt input} into
-  $8L$ characters and puts them into {\tt output}. The order is such that 
+  $8L$ characters and puts them into {\tt output}. The order is such that
   the 8 most significant bits of {\tt input[0]} will be in {\tt output[0]},
   the 8 least significant bits of {\tt input[0]} will be in {\tt output[7]},
   and the 8 least significant bits of {\tt input[L-1]} will be in
@@ -159,7 +159,7 @@ void num_WriteD (double x, int i, int j, int k);
    with at least {\tt k} significant digits
    ({\tt j} or {\tt i} is too small), it will be printed in scientific
    notation with at least {\tt k} significant digits.
-   In that case, {\tt i} is increased if necessary. 
+   In that case, {\tt i} is increased if necessary.
    Restriction: {\tt j} and {\tt k} must be strictly smaller than {\tt i}.
  \endtab
 \code
@@ -174,7 +174,7 @@ void num_WriteBits (uint64_t x, int k);
 int64_t num_MultMod (int64_t a, int64_t s, int64_t c, int64_t m);
 \endcode
 \tab  Returns $(as + c) \mod m$.  Uses the decomposition technique
-  of \cite{rLEC91a} to avoid overflow. 
+  of \cite{rLEC91a} to avoid overflow.
 	Assumptions: $\max(a,s,c) < m < 2^{63}$.
 %  This function can handle higher values than {\tt num\_MultModLL}.
 \endtab
@@ -183,32 +183,32 @@ int64_t num_MultMod (int64_t a, int64_t s, int64_t c, int64_t m);
 int64_t num_MultModDirect (int64_t a, int64_t s, int64_t c, int64_t m);
 \endcode
 \tab  Returns $(as + c) \mod m$.  Uses direct multiplication and addition.
-  Assumptions: $m < 2^{63}$ and $as+c < 2^{63}$. 
+  Assumptions: $m < 2^{63}$ and $as+c < 2^{63}$.
 \endtab
 \code
 
 double num_MultModDouble (double a, double s, double c, double m);
 \endcode
  \tab  Returns $(as+c) \mod m$, assuming that
-  $a$, $s$, $c$, and $m$ are all {\em integers\/} less than $2^{35}$ 
+  $a$, $s$, $c$, and $m$ are all {\em integers\/} less than $2^{35}$
   (represented exactly).
-  Works under the assumption that all positive integers less than 
+  Works under the assumption that all positive integers less than
   $2^{53}$ are represented exactly in floating-point (in {\tt double}).
 \endtab
 \code
 
 int64_t num_InvEuclid (int64_t m, int64_t z);
 \endcode
- \tab  This function computes the inverse $z^{-1}\bmod m$ by the 
+ \tab  This function computes the inverse $z^{-1}\bmod m$ by the
   modified Euclid algorithm (see \cite[p. 325]{iKNU81a}) and returns
   the result. If the inverse does not exist, returns 0. This function
-  can handle higher values than {\tt num\_InvEuclid}.
+  can handle higher values than {\tt num\_InvEuclid32}.
 \endtab
 \code
 
 long num_InvEuclid32 (long m, long z);
 \endcode
- \tab  Same as \texttt{num\_InvEuclid}, but for 32-bit integers.   
+ \tab  Same as \texttt{num\_InvEuclid}, but for 32-bit integers.
 \endtab
 \code
 
@@ -225,25 +225,25 @@ uint64_t num_InvExpon (int e, uint64_t z);
 long num_InvExpon32 (int e, long z);
  \endcode
  \tab  Same as \texttt{num\_InvExpon}, but for 32-bit integers.
-  Restriction: $e \le 32$.   
+  Restriction: $e \le 32$.
 \endtab
 \code
 
 uint64_t num_gcd (uint64_t a, uint64_t b);
  \endcode
- \tab  Returns the greatest common divisor gcd(\texttt{a,b}).  
+ \tab  Returns the greatest common divisor gcd(\texttt{a,b}).
 \endtab
 \code
 
 long num_gcd32 (long a, long b);
  \endcode
- \tab  Same as \texttt{num\_gcd}, but for 32-bit integers.  
+ \tab  Same as \texttt{num\_gcd}, but for 32-bit integers.
 \endtab
 \code
 
 lebool num_isMersennePrime (int e);
  \endcode
- \tab  Returns \texttt{TRUE} iff $2^e-1$ is a Mersenne prime for $e \le 110503$.   
+ \tab  Returns \texttt{TRUE} iff $2^e-1$ is a Mersenne prime for $e \le 110503$.
 \endtab
 \code\hide
 #endif

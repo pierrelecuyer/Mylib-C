@@ -296,17 +296,28 @@ double num_MultModDouble (double a, double s, double c, double m)
 	return V;
 }
 
+int64_t num_MultModDirect (int64_t a, int64_t s, int64_t c, int64_t m)
+{
+	int64_t V,k;
+	V = a * s + c;
+	k = V / m;
+	V -= k * m;
+	if (V < 0)
+		V += m;
+	return V;
+}
+
 /**************************************************************************/
 
-int64_t num_InvEuclid (int64_t m, int64_t x)
+int64_t num_InvEuclid (int64_t m, int64_t z)
 /*
- * Compute the inverse of x mod M by the modified Euclide
+ * Compute the inverse of z mod m by the modified Euclide
  * algorithm (Knuth V2 p. 325).
  */
 {
-	long u1 = 0, u3 = m, v1 = 1, v3 = x;
+	long u1 = 0, u3 = m, v1 = 1, v3 = z;
 	long t1, t3, qq;
-	if (x == 0) return 0;
+	if (z == 0) return 0;
 
 	while (v3 != 0) {
 		qq = u3 / v3;
@@ -322,8 +333,39 @@ int64_t num_InvEuclid (int64_t m, int64_t x)
 
 	if (u3 != 1) { /* In this case, the inverse does not exist! */
 		fprintf (stderr,
-		         "ERROR in num_InvEuclid: inverse does not exist:   m = %llu,  x = %llu\n",
-		         m, x);
+		         "ERROR in num_InvEuclid: inverse does not exist:   m = %llu,  z = %llu\n",
+		         m, z);
+		return 0;
+	} else
+		return u1;
+}
+
+long num_InvEuclid32 (long m, long z)
+/*
+ * Compute the inverse of z mod m by the modified Euclide
+ * algorithm (Knuth V2 p. 325).
+ */
+{
+	long u1 = 0, u3 = m, v1 = 1, v3 = z;
+	long t1, t3, qq;
+	if (z == 0) return 0;
+
+	while (v3 != 0) {
+		qq = u3 / v3;
+		t1 = u1 - v1 * qq;
+		t3 = u3 - v3 * qq;
+		u1 = v1;
+		v1 = t1;
+		u3 = v3;
+		v3 = t3;
+	}
+	if (u1 < 0)
+		u1 += m;
+
+	if (u3 != 1) { /* In this case, the inverse does not exist! */
+		fprintf (stderr,
+		         "ERROR in num_InvEuclid32: inverse does not exist:   m = %ld,  z = %ld\n",
+		         m, z);
 		return 0;
 	} else
 		return u1;
@@ -351,6 +393,26 @@ uint64_t num_InvExpon (int e, uint64_t z)
 	return res & bitset_MASK[e];
 }
 
+long num_InvExpon32 (int e, long z)
+/*
+ * Compute the inverse of Z modulo M = 2^E by exponentiation
+ */
+{
+	int j;
+	long res = z;
+
+	if (z == 0) return 0;
+	if (!(z & 1)) {
+		fprintf (stderr,
+		         "ERROR in num_InvExpon32: inverse does not exist:  e = %d, z = %ld\n",
+		         e, z);
+		return 0;
+	}
+	for (j = 1; j <= e - 3; j++)
+		res = res * res * z;
+	return res & bitset_MASK[e];
+}
+
 /*------------------------------------------------------------------------*/
 
 int64_t num_Round64 (double x)
@@ -366,5 +428,43 @@ double num_RoundD (double x)
 	return z;
 }
 
+/*------------------------------------------------------------------------*/
+
+uint64_t num_gcd (uint64_t a, uint64_t b)
+{
+	if (a == 0)
+		return b;
+	return num_gcd(b%a,a);
+}
+
+long num_gcd32 (long a, long b)
+{
+	if (a == 0)
+		return b;
+	return num_gcd(b%a,a);
+}
 
 /*------------------------------------------------------------------------*/
+
+lebool num_isMersennePrime(int e)
+{
+	if(e==2 || e==3 ||
+	   e==5 || e==7 ||
+	   e==13 || e==17 ||
+	   e==19 || e==31 ||
+	   e==61 || e==89 ||
+	   e==107 || e==127 ||
+	   e==521 || e==607 ||
+	   e==1279 || e==2203 ||
+	   e==2281 || e==3217 ||
+	   e==4253 || e==4423 ||
+	   e==9689 || e==9941 ||
+	   e==11213 || e==19937 ||
+	   e==21701 || e==23209 ||
+	   e==44497 || e==86243 ||
+	   e==110503) {
+		return 1;
+	}
+	else
+		return 0;
+}

@@ -28,7 +28,7 @@ to the \texttt{uint64\_t} variable.
 \code
 
 extern const uint64_t bitset_ONE;
-extern const uint64_t bitset_ALLONES;   
+extern const uint64_t bitset_ALLONES;
 \endcode
 \tab
   The two constants 1 and $2^{64}-1$ (a bitset with all ones).
@@ -153,20 +153,24 @@ typedef uint64_t bitset_BitSet;
 \guisec{Prototypes}
 \code
 
+bitset_BitSet bitset_ReverseOrderSimple (bitset_BitSet z, int b);
+\endcode
+\tab Reverses the order of the {\tt b} least significant bits of {\tt z} by looping
+    through the bits (simple but very inefficient). Thus, if {\tt b}${}=4$ and
+    {\tt z}${} = \dots 0011$, the returned value is $\dots 1100$.
+ \endtab
+\code
+
 bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b);
 \endcode
-\tab Reverses the order of the {\tt b} least significant bits of {\tt z}.
-  Thus, if {\tt b}${}=4$ and {\tt z}${} = \dots 0011$, the returned value is $\dots 1100$.
-	\pierre{The current implementation of this function is simple and very inefficient.
-	 More efficient methods use lookup tables.
-	 See \url{https://graphics.stanford.edu/~seander/bithacks.html}.
-	 I think this is implemented somewhere in TestU01.}
- \endtab
+\tab Reverses the order of the {\tt b} least significant bits of {\tt z} using
+    a lookup table, as implemented in \url{https://graphics.stanford.edu/~seander/bithacks.html}.
+\endtab
 \code
 
 void bitset_Write (char *desc, bitset_BitSet z, int b);
 \endcode
-  \tab  
+  \tab
 	\hpierre{Should return the string, not print it.  Then we can do whatever
 	    we want with the string.}
   Prints the string {\tt desc} (which may be empty), then writes the {\tt b}
