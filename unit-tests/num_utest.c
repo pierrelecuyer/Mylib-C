@@ -99,25 +99,25 @@ void num_utest_InvExpon32() {
 }
 
 void num_utest_gcd() {
-    assert_uint64_t(num_gcd(270,192),6);
-    assert_uint64_t(num_gcd(68,119),17);
-    assert_uint64_t(num_gcd(1785,546),21);
+	assert_uint64_t(num_gcd(270,192),6);
+	assert_uint64_t(num_gcd(68,119),17);
+	assert_uint64_t(num_gcd(1785,546),21);
 
 	printf("num : gcd unit tests succeeded.\n");
 }
 
 void num_utest_gcd32() {
-    assert_uint64_t(num_gcd32(270,192),6);
-    assert_uint64_t(num_gcd32(68,119),17);
-    assert_uint64_t(num_gcd32(1785,546),21);
+	assert_uint64_t(num_gcd32(270,192),6);
+	assert_uint64_t(num_gcd32(68,119),17);
+	assert_uint64_t(num_gcd32(1785,546),21);
 
 	printf("num : gcd32 unit tests succeeded.\n");
 }
 
 void num_utest_isMersennePrime() {
-    assert_int(num_isMersennePrime(107),TRUE);
-    assert_int(num_isMersennePrime(110503),TRUE);
-    assert_int(num_isMersennePrime(64),FALSE);
+	assert_int(num_isMersennePrime(107),TRUE);
+	assert_int(num_isMersennePrime(110503),TRUE);
+	assert_int(num_isMersennePrime(64),FALSE);
 
 	printf("num : isMersennePrime unit tests succeeded.\n");
 }
@@ -129,14 +129,14 @@ void num_utest_all() {
 	num_utest_IntToStrBase();
 	num_utest_MultMod();
 	num_utest_MultModDouble();
-    num_utest_MultModDirect();
+	num_utest_MultModDirect();
 	num_utest_InvEuclid();
-    num_utest_InvEuclid32();
+	num_utest_InvEuclid32();
 	num_utest_InvExpon();
-    num_utest_InvExpon32();
-    num_utest_gcd();
-    num_utest_gcd32();
-    num_utest_isMersennePrime();
+	num_utest_InvExpon32();
+	num_utest_gcd();
+	num_utest_gcd32();
+	num_utest_isMersennePrime();
 
 	printf("num : all unit tests succeeded.\n");
 }
