@@ -199,6 +199,7 @@ bitset_BitSet bitset_ReverseOrderSimple (bitset_BitSet z, int b)
 
 /*--------------------------------------------------------------------------*/
 
+// This function is adapted from the code of Sean Eron Anderson found at https://graphics.stanford.edu/~seander/bithacks.html
 bitset_BitSet bitset_ReverseOrder (bitset_BitSet z, int b)
 {
 	bitset_BitSet res = 0;
