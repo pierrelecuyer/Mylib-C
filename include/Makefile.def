@@ -7,8 +7,8 @@ MYLIBHEADERS = gdef.h addstr.h bitset.h chrono.h mystr.h num.h num2.h tables.h u
 MYLIBSOURCES = gdef.c addstr.c bitset.c chrono.c mystr.c num.c num2.c tables.c util.c bitvector.c bitmatrix.c rngstream.c
 MYLIBTEX = $(MYLIB)/gdef.tex $(MYLIB)/addstr.tex $(MYLIB)/bitset.tex $(MYLIB)/chrono.tex $(MYLIB)/mystr.tex $(MYLIB)/num.tex $(MYLIB)/num2.tex $(MYLIB)/tables.tex $(MYLIB)/util.tex $(MYLIB)/bitvector.tex $(MYLIB)/bitmatrix.tex $(MYLIB)/rngstream.tex
 
-UNITTESTSHEADERS = unit.h num_utest.h num2_utest.h bitvector_utest.h bitmatrix_utest.h rngstream_utest.h
-UNITTESTSSOURCES = unit.c num_utest.c num2_utest.c bitvector_utest.c bitmatrix_utest.c rngstream_utest.c
-UNITTESTSTEX = $(UNITTESTS)/unit.tex $(UNITTESTS)/num_utest.tex $(UNITTESTS)/num2_utest.tex $(UNITTESTS)/bitvector_utest.tex $(UNITTESTS)/bitmatrix_utest.tex $(UNITTESTS)/rngstream_utest.tex
+UNITTESTSHEADERS = unit.h num_utest.h num2_utest.h bitvector_utest.h bitmatrix_utest.h rngstream_utest.h bitset_utest.h
+UNITTESTSSOURCES = unit.c num_utest.c num2_utest.c bitvector_utest.c bitmatrix_utest.c rngstream_utest.c bitset_utest.c
+UNITTESTSTEX = $(UNITTESTS)/unit.tex $(UNITTESTS)/num_utest.tex $(UNITTESTS)/num2_utest.tex $(UNITTESTS)/bitvector_utest.tex $(UNITTESTS)/bitmatrix_utest.tex $(UNITTESTS)/rngstream_utest.tex $(UNITTESTS)/bitset_utest.tex
 
 EXAMPLESSOURCES = bitvector_example.c bitmatrix_example.c
