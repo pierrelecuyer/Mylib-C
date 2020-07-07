@@ -7,7 +7,7 @@
 const uint64_t bitset_ONE = 1ULL;
 const uint64_t bitset_ALLONES = 18446744073709551615ULL;
 
-unsigned long bitset_maskUL[] = {
+uint64_t bitset_MASK1[] = {
 	1,
 	2,
 	4,
@@ -76,6 +76,8 @@ unsigned long bitset_maskUL[] = {
 	9223372036854775808UL
 #endif
 };
+
+/*--------------------------------------------------------------------------*/
 
 static const unsigned char BitReverseTable256[256] =
 {
