@@ -1,25 +1,68 @@
-\defmodule {num2_utest}
+\defmodule {num2\_utest}
 
-Definition/example
+This module contains unit tests for the functions implemented in {\tt num2}. 
 
 %%%%%%%%%%%%%
 \bigskip
 \hrule
 \code
+\hide
 #ifndef NUM2UTEST_H
 #define NUM2UTEST_H
+\endhide
 \endcode
 
 \code
-
 void num2_utest_LnFactorial();
-void num2_utest_LnGamma();
-void num2_utest_Combination();
-void num2_utest_CalcMatStirling();
-void num2_utest_VolumeSphere();
-void num2_utest_BesselK025();
-void num2_utest_Digamma();
-void num2_utest_all();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_LnFactorial}.
+ \endtab
+\code
 
+void num2_utest_LnGamma();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_LnGamma}.
+ \endtab
+\code
+
+void num2_utest_Combination();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_Combinaison}.
+ \endtab
+\code
+
+void num2_utest_CalcMatStirling();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_CalcMatStirling}.
+ \endtab
+\code
+
+void num2_utest_VolumeSphere();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_VolumeSphere}.
+ \endtab
+\code
+
+void num2_utest_BesselK025();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_BesselK025}.
+ \endtab
+\code
+
+void num2_utest_Digamma();
+\endcode
+ \tab  Unit testing of the function {\tt num2\_Digamma}.
+ \endtab
+\code
+
+void num2_utest_all();
+\endcode
+ \tab  This function executes all the unit tests of {\tt num2}.
+ \endtab
+\code
+
+
+\hide
 #endif
+\endhide
 \endcode

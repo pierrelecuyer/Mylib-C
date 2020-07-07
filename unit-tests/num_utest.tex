@@ -1,32 +1,110 @@
-\defmodule {num_utest}
+\defmodule {num\_utest}
 
-Definition/example
+This module contains unit tests for the functions implemented in {\tt num}. 
 
 %%%%%%%%%%%%%
 \bigskip
 \hrule
 \code
+\hide
 #ifndef NUMUTEST_H
 #define NUMUTEST_H
+\endhide
 \endcode
 
 \code
-
 void num_utest_Round64();
-void num_utest_RoundD();
-void num_utest_IsNumber();
-void num_utest_IntToStrBase();
-void num_utest_MultMod();
-void num_utest_MultModDouble();
-void num_utest_MultModDirect();
-void num_utest_InvEuclid();
-void num_utest_InvEuclid32();
-void num_utest_InvExpon();
-void num_utest_InvExpon32();
-void num_utest_gcd();
-void num_utest_gcd32();
-void num_utest_isMersennePrime();
-void num_utest_all();
+\endcode
+ \tab  Unit testing of the function {\tt num\_Round64}.
+ \endtab
+\code
 
+void num_utest_RoundD();
+\endcode
+ \tab  Unit testing of the function {\tt num\_RoundD}.
+ \endtab
+\code
+
+void num_utest_IsNumber();
+\endcode
+ \tab  Unit testing of the function {\tt num\_IsNumber}.
+ \endtab
+\code
+
+void num_utest_IntToStrBase();
+\endcode
+ \tab  Unit testing of the function {\tt num\_IntToStrBase}.
+ \endtab
+\code
+
+void num_utest_MultMod();
+\endcode
+ \tab  Unit testing of the function {\tt num\_MultMod}.
+ \endtab
+\code
+
+void num_utest_MultModDouble();
+\endcode
+ \tab  Unit testing of the function {\tt num\_MultModDouble}.
+ \endtab
+\code
+
+void num_utest_MultModDirect();
+\endcode
+ \tab  Unit testing of the function {\tt num\_MultModDirect}.
+ \endtab
+\code
+
+void num_utest_InvEuclid();
+\endcode
+ \tab  Unit testing of the function {\tt num\_InvEuclid}.
+ \endtab
+\code
+
+void num_utest_InvEuclid32();
+\endcode
+ \tab  Unit testing of the function {\tt num\_InvEuclid32}.
+ \endtab
+\code
+
+void num_utest_InvExpon();
+\endcode
+ \tab  Unit testing of the function {\tt num\_InvExpon}.
+ \endtab
+\code
+
+void num_utest_InvExpon32();
+\endcode
+ \tab  Unit testing of the function {\tt num\_InvExpon32}.
+ \endtab
+\code
+
+void num_utest_gcd();
+\endcode
+ \tab  Unit testing of the function {\tt num\_gcd}.
+ \endtab
+\code
+
+void num_utest_gcd32();
+\endcode
+ \tab  Unit testing of the function {\tt num\_gcd32}.
+ \endtab
+\code
+
+void num_utest_isMersennePrime();
+\endcode
+ \tab  Unit testing of the function {\tt num\_isMersennePrime}.
+ \endtab
+\code
+
+void num_utest_all();
+\endcode
+ \tab  This function executes all the unit tests of {\tt num}.
+ \endtab
+\code
+
+
+\hide
 #endif
+\endhide
 \endcode

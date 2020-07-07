@@ -1,28 +1,63 @@
 \defmodule {unit}
 
-Definition/example of unit-test module
+This module defines different macros and functions to produce the unit tests and ensure that the implementation of the utility functions defined in the library are correct. It also contains functions allowing to execute all the unit tests of the library at the same time.
 
 %%%%%%%%%%%%%
 \bigskip
 \hrule
 \code
+\hide
 #ifndef UNIT_H
 #define UNIT_H
+\endhide
 
 #include "gdef.h"
 #include <stdio.h>
 #include <string.h>
 
-lebool compare(double n1, double n2);
+#define assert_double(n1, n2) util_Assert(compare(n1,n2), "Failure in double comparison");
+\endcode
+ \tab  This macro compares double values {\tt n1} and {\tt n2}. It returns an error message if these values do not correspond.
+ \endtab
+\code
 
-#define assert_double(n1, n2) util_Assert(compare(n1,n2), "Failure in double comparison")
 #define assert_int64_t(n1, n2) util_Assert(n1 == n2, "Failure in 64-bit comparison");
+\endcode
+ \tab  This macro compares 64-bit integer values {\tt n1} and {\tt n2}. It returns an error message if these values do not correspond.
+ \endtab
+\code
+
 #define assert_uint64_t(n1, n2) util_Assert(n1 == n2, "Failure in unsigned 64-bit comparison");
+\endcode
+ \tab  This macro compares unsigned 64-bit integer values {\tt n1} and {\tt n2}. It returns an error message if these values do not correspond.
+ \endtab
+\code
+
 #define assert_int(n1, n2) util_Assert(n1 == n2, "Failure in int comparison");
+\endcode
+ \tab  This macro compares integer values {\tt n1} and {\tt n2}. It returns an error message if these values do not correspond.
+ \endtab
+\code
+
 #define assert_str(str1, str2) util_Assert(compare(strcmp(str1,str2),0), "Failure in string comparison");
 \endcode
-
+ \tab  This macro compares strings {\tt str1} and {\tt str2}. It returns an error message if these values do not correspond.
+ \endtab
 \code
+
+lebool compare(double n1, double n2);
+\endcode
+ \tab  This function allow to compare double values {\tt n1} and {\tt n2} with acceptable size error less than $0.00001$.
+ \endtab
+\code
+
 void unit_all();
+\endcode
+ \tab  This function runs all the unit tests of the library. It can be executed after the first compilation of the library to ensure that the installation process has worked without glitch.
+ \endtab
+\code
+
+\hide
 #endif
+\endhide
 \endcode

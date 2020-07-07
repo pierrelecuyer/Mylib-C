@@ -1,20 +1,37 @@
-\defmodule {bitset_utest}
+\defmodule {bitset\_utest}
 
-Definition/example
+This module contains unit tests for the functions implemented in {\tt bitset}. 
 
 %%%%%%%%%%%%%
 \bigskip
 \hrule
 \code
+\hide
 #ifndef BITSETUTEST_H
 #define BITSETUTEST_H
+\endhide
 \endcode
 
 \code
-
 void bitset_utest_ReverseOrderSimple();
-void bitset_utest_ReverseOrder();
-void bitset_utest_all();
+\endcode
+ \tab  Unit testing of the function {\tt bitset\_ReverseOrderSimple}.
+ \endtab
+\code
 
+void bitset_utest_ReverseOrder();
+\endcode
+ \tab  Unit testing of the function {\tt bitset\_ReverseOrder}.
+ \endtab
+\code
+
+void bitset_utest_all();
+\endcode
+ \tab  This function executes all the unit tests of {\tt bitset}.
+ \endtab
+\code
+
+\hide
 #endif
+\endhide
 \endcode
