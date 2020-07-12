@@ -17,7 +17,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
-AC_CHECK_PROG(have_mathematica,math, yes, no) 
+AC_CHECK_PROG(have_mathematica,math, yes, no)
 
 # Checks for libraries.
 AC_CHECK_LIBM
@@ -38,6 +38,6 @@ AC_CHECK_TYPES([long long, uint32_t, uint8_t])
 LIBS="$LIBM $LIBS"
 AC_CHECK_FUNCS([random erf lgamma log1p])
 
-AC_CONFIG_FILES([Makefile include/Makefile mylib/Makefile examples/Makefile unit-tests/Makefile])
+AC_CONFIG_FILES([Makefile include/Makefile mylib/Makefile examples/Makefile mylib-unit-tests/Makefile])
 AC_SUBST([LIBM])
 AC_OUTPUT

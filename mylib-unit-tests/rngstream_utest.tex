@@ -1,0 +1,50 @@
+\defmodule {rngstream\_utest}
+
+This module contains unit tests for the functions implemented in {\tt rngstream}. 
+
+%%%%%%%%%%%%%
+\bigskip
+\hrule
+\code
+\hide
+#ifndef RNGSTREAMUTEST_H
+#define RNGSTREAMUTEST_H
+\endhide
+\endcode
+
+\code
+void rngstream_utest_RandU01();
+\endcode
+ \tab  Unit testing of the function {\tt rngstream\_RandU01}.
+ \endtab
+\code
+
+void rngstream_utest_RandInt();
+\endcode
+ \tab  Unit testing of the function {\tt rngstream\_RandInt}.
+ \endtab
+\code
+
+void rngstream_utest_SetSeed();
+\endcode
+ \tab  Unit testing of the function {\tt rngstream\_SetSeed}.
+ \endtab
+\code
+
+void rngstream_utest_SetPackageSeed();
+\endcode
+ \tab  Unit testing of the function {\tt rngstream\_SetPackageSeed}.
+ \endtab
+\code
+
+void rngstream_utest_all();
+\endcode
+ \tab  This function executes all the unit tests of {\tt rngstream}.
+ \endtab
+\code
+
+
+\hide
+#endif
+\endhide
+\endcode
