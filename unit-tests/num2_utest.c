@@ -1,6 +1,6 @@
 #include "gdef.h"
 #include "util.h"
-#include "unit.h"
+#include "mylib_utest.h"
 #include "num.h"
 #include "num2.h"
 #include <stdio.h>
@@ -8,36 +8,35 @@
 
 
 void num2_utest_LnFactorial() {
+    printf("num2 : Executing LnFactorial unit tests.\n");
     assert_double(num2_LnFactorial(85),295.76660135076);
     assert_double(num2_LnFactorial(100),363.73937555556);
     assert_double(num2_LnFactorial(113),424.47819341826);
-    printf("num2 : LnFactorial unit tests succeeded.\n");
-
 }
 
 void num2_utest_LnGamma() {
+    printf("num2 : Executing LnGamma unit tests.\n");
     assert_double(num2_LnGamma(0.00005),9.903458693809000468393);
     assert_double(num2_LnGamma(0.5),0.5723649429247000870717);
     assert_double(num2_LnGamma(18),33.50507345013688888401);
     assert_double(num2_LnGamma(50),144.5657439463448860089);
     assert_double(num2_LnGamma(113),419.7508055995447340991);
-    printf("num2 : LnGamma unit tests succeeded.\n");
 }
 
 void num2_utest_Combination() {
+    printf("num2 : Executing Combination unit tests.\n");
     assert_double(num2_Combination(0,0),1);
     assert_double(num2_Combination(10,0),1);
     assert_double(num2_Combination(24,12),2704156);
     assert_double(num2_Combination(74,60),456002537343216);
-    printf("num2 : Combination unit tests succeeded.\n");
 }
 
 void num2_utest_log1p() {
+    printf("num2 : Executing log1p unit tests.\n");
     assert_double(num2_log1p(0),0);
     assert_double(num2_log1p(-0.5),0.6931471805599453);
     assert_double(num2_log1p(0.5),0.4054651081081644);
     assert_double(num2_log1p(100),4.61512051684126);
-    printf("num2 : log1p unit tests succeeded.\n");
 }
 
 void num2_utest_CalcMatStirling() {
@@ -55,7 +54,7 @@ void num2_utest_CalcMatStirling() {
         }
         matStirlingSum_utest[i]=k;
     }
-
+    printf("num2 : Executing CalcMatStirling unit tests.\n");
     assert_double(matStirlingSum[0],matStirlingSum_utest[0]);
     assert_double(matStirlingSum[1],matStirlingSum_utest[1]);
     assert_double(matStirlingSum[2],matStirlingSum_utest[2]);
@@ -66,41 +65,36 @@ void num2_utest_CalcMatStirling() {
     assert_double(matStirlingSum[7],matStirlingSum_utest[7]);
     assert_double(matStirlingSum[8],matStirlingSum_utest[8]);
     assert_double(matStirlingSum[9],matStirlingSum_utest[9]);
-
     num2_FreeMatStirling(&M,9);
-
-    printf("num2 : CalcMatStirling unit tests succeeded.\n");
 }
 
 void num2_utest_VolumeSphere() {
+    printf("num2 : Executing VolumeSphere unit tests.\n");
     assert_double(num2_VolumeSphere(2,3),4.188790204786390984);
     assert_double(num2_VolumeSphere(3,3),5.696583541509835167);
     assert_double(num2_VolumeSphere(1000,3),7.99996059844262270);
     assert_double(num2_VolumeSphere(2,10),2.550164039877345443);
     assert_double(num2_VolumeSphere(3,10),35.651609488062913386);
     assert_double(num2_VolumeSphere(1000,10),1023.924607665882446014);
-
-    printf("num2 : VolumeSphere unit tests succeeded.\n");
 }
 
 void num2_utest_BesselK025() {
+    printf("num2 : Executing BesselK025 unit tests.\n");
     assert_double(num2_BesselK025(1),0.4307397744485855246569);
     assert_double(num2_BesselK025(0.5),0.960316324931886022947);
     assert_double(num2_BesselK025(0.00005),25.463633449667459958);
-
-    printf("num2 : BesselK025 unit tests succeeded.\n");
 }
 
 void num2_utest_Digamma() {
+    printf("num2 : Executing Digamma unit tests.\n");
     assert_double(num2_Digamma(10),2.251752589066721107647);
     assert_double(num2_Digamma(2),0.4227843350984671393935);
     assert_double(num2_Digamma(0.3),-3.502524222200132988964);
     assert_double(num2_Digamma(0.0005),-2000.576393498247108909);
-
-    printf("num2 : Digamma unit tests succeeded.\n");
 }
 
 void num2_utest_all() {
+    printf("num2 : Executing all unit tests.\n");
     num2_utest_LnFactorial();
     num2_utest_LnGamma();
     num2_utest_Combination();
@@ -108,6 +102,5 @@ void num2_utest_all() {
     num2_utest_VolumeSphere();
     num2_utest_BesselK025();
     num2_utest_Digamma();
-
     printf("num2 : all unit tests succeeded.\n");
 }

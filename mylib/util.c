@@ -5,10 +5,21 @@
 #include <errno.h>
 #include <string.h>
 
-
 #define MAXCAR 256                      /* Max length of a line of data */
 
 
+
+/************************************************************************/
+
+lebool util_nearEqual (double x, double y, double eps)
+{
+   return (fabs(x - y) < eps);
+}
+
+lebool util_nearEqualRel (double x, double y, double eps)
+{
+   return (fabs(x - y) < eps * fabs(y));
+}
 
 /************************************************************************/
 

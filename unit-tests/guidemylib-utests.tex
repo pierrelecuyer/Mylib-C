@@ -167,102 +167,83 @@ procnamekeys={class,extends,interface,implements}
 \def\hrichard#1{}
 \def\richard#1 {\fbox {\footnote {\ }}\ \footnotetext { From Richard: #1}}
 
-\def\hiro#1{\boxnote{Hiroshi}{\color{blue}#1}}   % Adds a footnote from Hiroshi
-\newcommand{\mhiro}[1]{{\color{blue}#1}}         % Adds text in the color oh Hiroshi
-\def\hhiro#1{}                                   % This is a way to comment out an addition or footnote.
-
 \def\simon#1{\boxnote{Simon}{\color{cyan}#1}}   
 \newcommand{\msimon}[1]{{\color{cyan}#1}}        
 \def\hsimon#1{}                                  
 
 \def\perhaps#1{{\color{gray} #1}}
 
+\newif\ifdetailed\detailedfalse
+\newenvironment{detailed}{\protect\ifdetailed }{\protect\fi }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
+%  \include {title}
 \begin{titlepage}
 
 \null 
 \begin {flushright} \it Last update: \today \end {flushright}
 
 \vfill
-{ \centerline {\Large\bf Mylib-C Reference Manual}\bigskip\bigskip
-  \centerline {\large\bf Some Basic Utilities in C }}
+\begin{center}
+ {\Large\bf Mylib-C Unit Tests} \\
+%  {\large\bf Unit Testing for the Modules of Mylib-C}\\
+\vfill
+ {\bf Simon-Olivier Laperri\`ere, Robin Legault, and Pierre L'Ecuyer} \\ \ \\
+\medskip
+D\'epartement d'Informatique et de Recherche Op\'erationnelle \\
+Universit\'e de Montr\'eal \\
+\end{center}
 \vfill
 
-\centerline {{\bf Pierre L'Ecuyer and Richard Simard}}
-\medskip
-\centerline {D\'epartement d'Informatique et de Recherche op\'erationnelle}
-\centerline {Universit\'e de Montr\'eal}
-
-\vfill
-% \centerline {\large\bf Note}
-\medskip
-
-This document describes a set of basic utility functions implemented in the 
-C language around the years 1995--2000, to be used in the software developed in the
-\emph{Stochastic Simulation Laboratory} under the supervision of Pierre L'Ecuyer.
-Many of these tools were originally implemented earlier in the Modula-2 language,
-and used in our old software to analyze and test random number generators (RNGs) back 
-in the late 1980's.  They were translated to C when our old 
-RNG software was converted from Modula-2 to C in the late 1990's.
-Some of these functions may have counterparts in recent standard C libraries, 
-but we keep them to avoid rewriting our code.
-They are used in particular in the TestU01 and F2LinearGen libraries.
-
-This reference manual is written in LaTeX and the \texttt{.tex} source files 
-are also used to produce the \texttt{.h} files, to ensure that they agree with
-the documentation.  
-
-In addition to the functions described here, unit-test functions are provided 
-in the separate folder \texttt{mylib-unit-tests}. 
-They permit one to check each function for correctness.  
-\bigskip
-
-\textbf{Contributors:}  Pierre L'Ecuyer, Richard Simard, Fran\c cois Panneton,
-Francis Picard, Jean-S\'ebastien S\'en\'ecal, Simon-Olivier Laperri\`ere.
+This document describes a collection of unit tests for the modules of \emph{Mylib-C}. 
+% It provides a set of functions to test the utility functions of the library.
+For each module defined in {\tt mylib}, a corresponding module in {\tt unit-tests} provides
+functions that test the functions of that module. 
+The module {\tt unit} contains functions to test the whole library by a single function call.
 
 \vfill
 \end{titlepage}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{roman}
-\tableofcontents
-\pagenumbering{arabic}
 
-\iffalse 
-\include{gdef}
-\include{util}
-\include{num}
-\include{num2}
-\include{mystr}
-\include{addstr}
-\include{tables}
-\include{bitset}
-\include{bitvector}
-\include{bitmatrix}
-\include{rngstream}
-\include{chrono}
-\include{tcode}
-\fi
+%  \include {copyright}
+\section*{Copyright}
+ 
+% This file is part of Mylib-C.
 
+Copyright \copyright {} 2002--2020 by Universit\'e de Montr\'eal.
+%  Web address:   \url{http://www.iro.umontreal.ca/~lecuyer/} \\
+  All rights reserved.
 
-\clearpage\input gdef.tex
-\clearpage\input util.tex
-\clearpage\input num.tex
-\clearpage\input num2.tex
-\clearpage\input mystr.tex
-\clearpage\input addstr.tex
-\clearpage\input tables.tex
-\clearpage\input bitset.tex
-\clearpage\input bitvector.tex
-\clearpage\input bitmatrix.tex
-\clearpage\input rngstream.tex
-\clearpage\input chrono.tex
-\clearpage\input tcode.tex
+Licensed under the Apache License, Version 2.0 (the "License"); 
+you can use this software only in compliance with the License. 
+You can obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 \clearpage
+%  \addcontentsline{toc}{subsection}{Copyright}
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+
+\include {mylib_utest}
+\include {num_utest}
+\include {num2_utest}
+\include {bitset_utest}
+\include {bitvector_utest}
+\include {bitmatrix_utest}
+\include {rngstream_utest}
+
+% \appendix
+
 \bibliographystyle {plain}
-\bibliography{stat,random,simul,math,ift}
+\bibliography{stat,random,simul,math}
 \end{document}

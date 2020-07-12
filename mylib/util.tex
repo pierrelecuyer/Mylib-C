@@ -90,9 +90,37 @@ The module also contains safe prototype functions to open and close files.
 \endcode
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \guisec{Prototypes}
+
+\code
+
+lebool util_nearEqual (double x, double y, double eps); 
+\endcode
+ \tab  Tests if the two floating-point numbers $x$ and $y$ are nearly equal.
+ Returns {\tt TRUE} if $|x-y| < \texttt{eps}$, 
+ and to {\tt FALSE} otherwise.
+ \endtab
+\code
+
+lebool util_nearEqualRel (double x, double y, double eps); 
+\endcode
+ \tab  Tests if the two floating-point numbers $x$ and $y$ are nearly equal,
+  relatively to the value of $|y|$. 
+  Returns {\tt TRUE} if $|x-y| < \texttt{eps} |y|$, and to {\tt FALSE} otherwise.
+  This is often used if the result $x$ of a calculation is supposed to equal 
+	a known value $y$, and we want to test if the calculation appears correct.
+	One might then take \texttt{eps} somewhere around $10^{-12}$ to $10^{-15}$, for example.
+ \pierre{See also \url{https://bitbashing.io/comparing-floats.html} for more
+  sophisticated comparison methods of floating-point numbers.}
+ \endtab
+\code
+
+#define util_nearEqualRel(x,y) util_nearEqualRel (x, y, 1.0e-12)
+\endcode
+\tab  This macro permits one to invoke the previous function by using a default
+  value for the bound \texttt{eps} on the relative error.
+\endtab
 \code
 
 FILE * util_Fopen (const char *name, const char *mode);

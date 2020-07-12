@@ -1,5 +1,5 @@
 #include "gdef.h"
-#include "unit.h"
+#include "mylib_utest.h"
 #include "num_utest.h"
 #include "num2_utest.h"
 #include "bitvector_utest.h"
@@ -14,12 +14,13 @@
 #endif
 
 lebool compare(double n1, double n2) {
-	if (fabs(n1-n2) < 0.00001)
-		return TRUE;
-	return FALSE;
+  return util_nearEqualRel(x,y);
+%	if (fabs(n1-n2) < 0.00001)
+%		return TRUE;
+%	return FALSE;
 }
 
-void unit_all() {
+void mylib_utest_testall() {
 	num_utest_all();
 	num2_utest_all();
 	bitvector_utest_all();
@@ -31,7 +32,6 @@ void unit_all() {
 	printf("<------------------------->\n");
 }
 
-
 int main(void) {
-	unit_all();
+	mylib_utest_testall();
 }
