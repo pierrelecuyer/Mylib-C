@@ -14,40 +14,40 @@
 
 lebool util_nearEqual (double x, double y, double eps)
 {
-   return (fabs(x - y) < eps);
+	return (fabs(x - y) < eps);
 }
 
 lebool util_nearEqualRel (double x, double y, double eps)
 {
-   return (fabs(x - y) < eps * fabs(y));
+	return (fabs(x - y) < eps * fabs(y));
 }
 
 /************************************************************************/
 
 FILE *util_Fopen (const char *path, const char *mode)
 {
-   FILE *f;
-   errno = 0;
-   f = fopen (path, mode);
-   if (f == NULL) {
-      fprintf (stdout, "\nOpening of %s failed: %s\n\n",
-               path, strerror (errno));
-      exit (EXIT_FAILURE);
-      return NULL;     /* to eliminate a warning from the compiler */
-   } else
-      return f;
+	FILE *f;
+	errno = 0;
+	f = fopen (path, mode);
+	if (f == NULL) {
+		fprintf (stdout, "\nOpening of %s failed: %s\n\n",
+		         path, strerror (errno));
+		exit (EXIT_FAILURE);
+		return NULL; /* to eliminate a warning from the compiler */
+	} else
+		return f;
 }
 
 int util_Fclose (FILE * f)
 {
-   int s;
-   if (f == NULL)
-      return 0;
-   errno = 0;
-   s = fclose (f);
-   if (s != 0)
-      fprintf (stdout, "\nClosing of file failed: %s\n\n", strerror (errno));
-   return s;
+	int s;
+	if (f == NULL)
+		return 0;
+	errno = 0;
+	s = fclose (f);
+	if (s != 0)
+		fprintf (stdout, "\nClosing of file failed: %s\n\n", strerror (errno));
+	return s;
 }
 
 
@@ -55,50 +55,50 @@ int util_Fclose (FILE * f)
 
 void *util_Malloc (size_t size)
 {
-   void *p;
-   errno = 0;
-   p = malloc (size);
-   if (p == NULL) {
-      fprintf (stdout, "\nmalloc failed: %s\n\n", strerror (errno));
-      exit (EXIT_FAILURE);
-      return NULL;     /* to eliminate a warning from the compiler */
-   } else
-      return p;
+	void *p;
+	errno = 0;
+	p = malloc (size);
+	if (p == NULL) {
+		fprintf (stdout, "\nmalloc failed: %s\n\n", strerror (errno));
+		exit (EXIT_FAILURE);
+		return NULL; /* to eliminate a warning from the compiler */
+	} else
+		return p;
 }
 
 void *util_Calloc (size_t count, size_t esize)
 {
-   void *p;
-   errno = 0;
-   p = calloc (count, esize);
-   if (p == NULL) {
-      fprintf (stdout, "\ncalloc failed: %s\n\n", strerror (errno));
-      exit (EXIT_FAILURE);
-      return NULL;     /* to eliminate a warning from the compiler */
-   } else
-      return p;
+	void *p;
+	errno = 0;
+	p = calloc (count, esize);
+	if (p == NULL) {
+		fprintf (stdout, "\ncalloc failed: %s\n\n", strerror (errno));
+		exit (EXIT_FAILURE);
+		return NULL; /* to eliminate a warning from the compiler */
+	} else
+		return p;
 }
 
 void *util_Realloc (void *ptr, size_t size)
 {
-   void *p;
-   errno = 0;
-   p = realloc (ptr, size);
-   if ((p == NULL) && (size != 0)) {
-      fprintf (stdout, "\nrealloc failed: %s\n\n", strerror (errno));
-      exit (EXIT_FAILURE);
-      return ptr;      /* to eliminate a warning from the compiler */
-   } else
-      return p;
+	void *p;
+	errno = 0;
+	p = realloc (ptr, size);
+	if ((p == NULL) && (size != 0)) {
+		fprintf (stdout, "\nrealloc failed: %s\n\n", strerror (errno));
+		exit (EXIT_FAILURE);
+		return ptr; /* to eliminate a warning from the compiler */
+	} else
+		return p;
 
 }
 
 void *util_Free (void *p)
 {
-   if (p == NULL)
-      return NULL;
-   free (p);
-   return NULL;
+	if (p == NULL)
+		return NULL;
+	free (p);
+	return NULL;
 }
 
 
@@ -106,26 +106,26 @@ void *util_Free (void *p)
 
 void util_WriteBool (lebool b, int d)
 {
-   if (b)
-      printf ("%*s", d, "TRUE");
-   else
-      printf ("%*s", d, "FALSE");
+	if (b)
+		printf ("%*s", d, "TRUE");
+	else
+		printf ("%*s", d, "FALSE");
 }
 
 
 void util_ReadBool (char S[], lebool *x)
 {
-   int j;
-   char B[6];
-   j = sscanf (S, " %6s", B);
-   util_Assert (j > 0, "util_ReadBool:   on reading lebool");
-   if (!strncmp (B, "TRUE", (size_t) 5))
-      *x = TRUE;
-   else if (!strncmp (B, "FALSE", (size_t) 6))
-      *x = FALSE;
-   else {
-      util_Error ("util_ReadBool:   lebool values must be TRUE or FALSE");
-   }
+	int j;
+	char B[6];
+	j = sscanf (S, " %6s", B);
+	util_Assert (j > 0, "util_ReadBool:   on reading lebool");
+	if (!strncmp (B, "TRUE", (size_t) 5))
+		*x = TRUE;
+	else if (!strncmp (B, "FALSE", (size_t) 6))
+		*x = FALSE;
+	else {
+		util_Error ("util_ReadBool:   lebool values must be TRUE or FALSE");
+	}
 }
 
 
@@ -133,31 +133,31 @@ void util_ReadBool (char S[], lebool *x)
 
 int util_GetLine (FILE *infile, char *Line, char c)
 {
-   size_t j;
+	size_t j;
 
-   while (NULL != fgets (Line, MAXCAR, infile)) { /* Not EOF and no error */
-     /* Find first non-white character in Line */
-     j = strspn (Line, " \t\r\f\v");
-     /* Discard blank lines and lines whose first non-white character is c */
-     if (Line[j] == '\n' ||  Line[j] == c)
-        continue;
-     else {
-        char *p;
-        /* If the character c appears, delete the rest of the line*/
-        if ((p = strchr (Line, c)))
-	   *p = '\0';
+	while (NULL != fgets (Line, MAXCAR, infile)) { /* Not EOF and no error */
+		/* Find first non-white character in Line */
+		j = strspn (Line, " \t\r\f\v");
+		/* Discard blank lines and lines whose first non-white character is c */
+		if (Line[j] == '\n' ||  Line[j] == c)
+			continue;
+		else {
+			char *p;
+			/* If the character c appears, delete the rest of the line*/
+			if ((p = strchr (Line, c)))
+				*p = '\0';
 
-        else {
-        /* Remove the \n char at the end of line */
-           j = strlen (Line);
-           if (Line[j - 1] == '\n')
-	      Line[j - 1] = '\0';
+			else {
+				/* Remove the \n char at the end of line */
+				j = strlen (Line);
+				if (Line[j - 1] == '\n')
+					Line[j - 1] = '\0';
+			}
+			return 0;
+		}
 	}
-        return 0;
-     }
-   }
 
-   util_Fclose (infile);
-   return -1;
-   /*  util_Error ("GetLine: an error has occurred on reading"); */
+	util_Fclose (infile);
+	return -1;
+	/*  util_Error ("GetLine: an error has occurred on reading"); */
 }

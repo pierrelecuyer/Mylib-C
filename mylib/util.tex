@@ -116,7 +116,7 @@ lebool util_nearEqualRel (double x, double y, double eps);
  \endtab
 \code
 
-#define util_nearEqualDefault(x,y) util_nearEqual (x, y, 0.0000001)
+#define util_nearEqualDefault(x,y) util_nearEqualRel (x, y, 0.0000001)
 \endcode
 \tab  This macro permits one to invoke the previous function by using a default value for the bound \texttt{eps} on the relative error.
 \endtab

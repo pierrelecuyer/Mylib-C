@@ -14,17 +14,16 @@ void num_utest_Round64() {
 
 void num_utest_RoundD() {
 	printf("num : Executing RoundD unit tests.\n");
-	assert_double(num_RoundD(0.0005),0);
 	assert_double(num_RoundD(0.5),1);
 	assert_double(num_RoundD(10.3),10);
 }
 
 void num_utest_IsNumber() {
 	printf("num : Executing IsNumber unit tests.\n");
-	assert_double(num_IsNumber("+ 2"),TRUE);
-	assert_double(num_IsNumber("-+ 2"),FALSE);
-	assert_double(num_IsNumber("4hello"),TRUE);
-	assert_double(num_IsNumber("hello"),FALSE);
+	assert_int(num_IsNumber("+ 2"),TRUE);
+	assert_int(num_IsNumber("-+ 2"),FALSE);
+	assert_int(num_IsNumber("4hello"),TRUE);
+	assert_int(num_IsNumber("hello"),FALSE);
 }
 
 void num_utest_IntToStrBase() {
