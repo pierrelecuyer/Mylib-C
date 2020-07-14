@@ -16,7 +16,7 @@ void rngstream_utest_RandU01() {
         sum += rngstream_RandU01(g);
     }
 
-    assert_double(sum,490.925484);
+    assert_double(sum,490.925483980100011649483349174261);
     rngstream_DeleteStream(&g);
 }
 

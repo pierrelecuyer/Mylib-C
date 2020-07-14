@@ -116,10 +116,13 @@ lebool util_nearEqualRel (double x, double y, double eps);
  \endtab
 \code
 
-#define util_nearEqualDefault(x,y) util_nearEqualRel (x, y, 0.0000001)
+lebool util_nearEqualDefault (double x, double y);
 \endcode
-\tab  This macro permits one to invoke the previous function by using a default value for the bound \texttt{eps} on the relative error.
-\endtab
+ \tab  Tests if the two floating-point numbers $x$ and $y$ are nearly equal,
+  relatively to the value of $|y|$ by calling {\tt util_nearEqualRel} and by
+  using a default value of 1.0E-12 for the bound \texttt{eps} on the relative
+  error.
+ \endtab
 \code
 
 FILE * util_Fopen (const char *name, const char *mode);

@@ -80,9 +80,9 @@ void num2_utest_VolumeSphere() {
 
 void num2_utest_BesselK025() {
     printf("num2 : Executing BesselK025 unit tests.\n");
-    assert_double(num2_BesselK025(1),0.4307397744485855246569);
-    assert_double(num2_BesselK025(0.5),0.960316324931886022947);
-    assert_double(num2_BesselK025(0.00005),25.463633449667459958);
+    util_Assert(util_nearEqualRel(num2_BesselK025(1),0.4307397744485855246569,0.5e-6),"Failure in double comparison");
+    util_Assert(util_nearEqualRel(num2_BesselK025(0.5),0.960316324931886022947,0.5e-6),"Failure in double comparison");
+    util_Assert(util_nearEqualRel(num2_BesselK025(0.00005),25.463633449667459958,0.5e-6),"Failure in double comparison");
 }
 
 void num2_utest_Digamma() {

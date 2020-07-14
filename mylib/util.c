@@ -22,6 +22,11 @@ lebool util_nearEqualRel (double x, double y, double eps)
 	return (fabs(x - y) < eps * fabs(y));
 }
 
+lebool util_nearEqualDefault (double x, double y)
+{
+	return util_nearEqualRel(x,y,1.0E-12);
+}
+
 /************************************************************************/
 
 FILE *util_Fopen (const char *path, const char *mode)
