@@ -45,6 +45,33 @@ double num_TENNEGPOW[] = {
 };
 
 
+/*************************************************************************/
+
+int num_IntMin (int x, int y) {
+	if (x > y)
+		return y;
+	return x;
+}
+
+int num_IntMax (int x, int y) {
+	if (x > y)
+		return x;
+	return y;
+}
+
+double num_DoubleMin (double x, double y) {
+	if (x > y)
+		return y;
+	return x;
+}
+
+double num_DoubleMax (double x, double y) {
+	if (x > y)
+		return x;
+	return y;
+}
+
+/*************************************************************************/
 
 int num_IsNumber (char S[])
 /*********************************************************
