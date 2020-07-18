@@ -191,7 +191,7 @@ procnamekeys={class,extends,interface,implements}
  {\Large\bf Mylib-C Unit Tests} \\
 %  {\large\bf Unit Testing for the Modules of Mylib-C}\\
 \vfill
- {\bf Simon-Olivier Laperri\`ere, Robin Legault, and Pierre L'Ecuyer} \\ \ \\
+ {\bf Simon-Olivier Laperri\`ere and Robin Legault} \\ \ \\
 \medskip
 D\'epartement d'Informatique et de Recherche Op\'erationnelle \\
 Universit\'e de Montr\'eal \\
@@ -202,7 +202,7 @@ This document describes a collection of unit tests for the modules of \emph{Myli
 % It provides a set of functions to test the utility functions of the library.
 For each module defined in {\tt mylib}, a corresponding module in {\tt unit-tests} provides
 functions that test the functions of that module. 
-The module {\tt unit} contains functions to test the whole library by a single function call.
+The module {\tt mylib\_utest} contains functions to test the whole library by a single function call.
 
 \vfill
 \end{titlepage}
@@ -234,6 +234,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 \pagenumbering{arabic}
 
+\iffalse  %%%%%
 \include {mylib_utest}
 \include {num_utest}
 \include {num2_utest}
@@ -241,9 +242,18 @@ Unless required by applicable law or agreed to in writing, software distributed 
 \include {bitvector_utest}
 \include {bitmatrix_utest}
 \include {rngstream_utest}
+\fi  %%%%
+
+\clearpage\input mylib_utest.tex
+\clearpage\input num_utest.tex
+\clearpage\input num2_utest.tex
+\clearpage\input bitset_utest.tex
+\clearpage\input bitvector_utest.tex
+\clearpage\input bitmatrix_utest.tex
+\clearpage\input rngstream_utest.tex
+\clearpage
 
 % \appendix
-
-\bibliographystyle {plain}
-\bibliography{stat,random,simul,math}
+%  \bibliographystyle {plain}
+%  \bibliography{stat,random,simul,math}
 \end{document}
