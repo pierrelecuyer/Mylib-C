@@ -72,11 +72,16 @@ manipulate numbers represented in different forms.
   \endtab
 \code
 
+#define num_TwoExp(x) (uint64_t(1)<<x)
+
 extern double num_TwoExp[];
 \endcode
   \tab  Contains precomputed powers of 2.
-  One has {\tt num\_TwoExp[i]} $= 2^i$ for $0 \le i \le$
-  {\tt num\_MaxTwoExp}.
+  One has {\tt num\_TwoExp[i]} $= 2^i$ for $0 \le i \le$ {\tt num\_MaxTwoExp}.
+	\mpierre{Instead of storing the numbers, this could be replaced by a macro,
+	 as in the line above.  Simple and no need to store a table.
+	 To get the exact value in \texttt{double}, just use \texttt{(double)num\_TwoExp(x)}.
+	 One limitation: Does not work for $x \ge 64$.}
 \endtab
 \code
 
@@ -108,7 +113,8 @@ extern double num_TENNEGPOW[];
 int num_IntMin (int x, int y);
 \endcode
   \tab Returns the smallest integer value between {\tt x} and {\tt y}.
-	\pierre{Il me semble que \texttt{util\_Min} est mieux, non?  Idem pour les fonctions qui suivent.}
+	\mpierre{This function are the next three ones are deprecated.  
+	   Use \texttt{util\_Min} instead.}
   \endtab
 \code
 
