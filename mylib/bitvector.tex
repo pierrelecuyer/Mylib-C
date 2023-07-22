@@ -3,7 +3,7 @@
 This module offers facilities to store and manipulate bit vectors of arbitrary length.
 The bit vectors are stored in arrays of 64-bit unsigned integers, and their length
 is always rounded up to the nearest multiple of 64.
-The bit indexation goes from left to right (which is unusual) and starts at 0.
+The bit indexation goes from left to right and starts at 0.
 This left-to-right ordering is because these vectors are used to construct
 binary matrices (see \texttt{bitmatrix}),
 for which the elements are usually ordered from left to right.
@@ -282,8 +282,8 @@ void bitvector_fillRandomBits (bitvector_vector *v);
  \tab
 Fills the vector {\tt v} with random bits.
  \pierre{This needs to be implemented!  
-    For now, use rngstreams to fill using blocks of 32 bits. 
-		I realize it would be better to use a 64-bit RNGs, however.}
+    For now, it uses rngstreams to fill using blocks of 32 bits. 
+		We may prefer to use a 64-bit RNGs.}
  \endtab
 \code\hide
 #endif

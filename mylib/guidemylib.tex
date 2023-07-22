@@ -185,7 +185,7 @@ procnamekeys={class,extends,interface,implements}
 \begin {flushright} \it Last update: \today \end {flushright}
 
 \vfill
-{ \centerline {\Large\bf Mylib-C Reference Manual}\bigskip\bigskip
+{ \centerline {\Large\bf mylib-C Reference Manual}\bigskip\bigskip
   \centerline {\large\bf Some Basic Utilities in C }}
 \vfill
 
@@ -198,20 +198,21 @@ procnamekeys={class,extends,interface,implements}
 % \centerline {\large\bf Note}
 \medskip
 
-This document describes a set of basic utility functions implemented in the 
-C language around the years 1995--2000, to be used in the software developed in the
+This document describes basic utility functions implemented in the 
+C language mostly around the years 1995--2000, to be used in the software developed in the
 \emph{Stochastic Simulation Laboratory} under the supervision of Pierre L'Ecuyer.
 Many of these tools were originally implemented earlier in the Modula-2 language,
 and used in our old software to analyze and test random number generators (RNGs) back 
-in the late 1980's.  They were translated to C when our old 
-RNG software was converted from Modula-2 to C in the late 1990's.
-Some of these functions may have counterparts in recent standard C libraries, 
+in the late 1980's.  They were translated to C when some of our
+software was converted from Modula-2 to C in the late 1990's.
+Many of these functions may have counterparts in recent standard C libraries, 
 but we keep them to avoid rewriting our code.
-They are used in particular in the TestU01 and F2LinearGen libraries.
+They are used in particular in the \texttt{TestU01} and \texttt{F2LinearGen} libraries.
 
 This reference manual is written in LaTeX and the \texttt{.tex} source files 
 are also used to produce the \texttt{.h} files of the library, to ensure that they agree with
-the documentation.  
+the documentation.  Most of the function names are capitalized, but some are not,
+e.g., in \texttt{bitvector} and \texttt{bitmatrix}.
 
 In addition to the functions described here, unit-test functions are provided 
 in the separate folder \texttt{mylib-unit-tests}. 
@@ -259,6 +260,7 @@ Francis Picard, Jean-S\'ebastien S\'en\'ecal, Simon-Olivier Laperri\`ere.
 \clearpage\input rngstream.tex
 \clearpage\input chrono.tex
 \clearpage\input tcode.tex
+\clearpage\input extranotes.tex
 
 \clearpage
 \bibliographystyle {plain}

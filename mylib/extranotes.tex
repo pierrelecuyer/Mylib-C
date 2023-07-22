@@ -1,0 +1,40 @@
+\section*{Additional Notes}
+
+Some functions that print to standard output in this package have names that end with
+``\texttt{\_display}'' instead of the usual ``\texttt{\_printf}'', 
+to emphasize that the output is displayed, not printed.  This could be changed if needed.
+
+For binary vectors as in \texttt{bitvector}, there are other popular implementations:
+\begin{enumerate}
+\item
+Simple tools for bit vectors in C are offered at \url{http://c-faq.com/misc/bitsets.html}.
+Bits are counted from the left, starting at 0, as far as I understand.
+\item 
+Another nice set of macros in C:
+\url{https://github.com/iplinux/x11proto-trap/blob/master/xtrapbits.h}
+\item
+In \url{https://www.gnu.org/software/guile/docs/docs-1.8/guile-ref/Bit-Vectors.html},
+bits are counted from left to right, starting at 0.
+Different operations are available, such as Hamming weight of bit string.
+\item
+See \url{https://en.wikipedia.org/wiki/Bit_array} for bit vectors in various languages.
+%
+\item
+The Boost C++ library offers  \texttt{dynamic\_bitset}:  
+\url{https://www.boost.org/doc/libs/1\_73\_0/libs/dynamic\_bitset/dynamic\_bitset.html}.
+For these dynamic bitsets, we  find the following: 
+{\small
+``Each bit represents either the Boolean value true or false (1 or 0). To set a bit is to assign it 1. To clear or reset a bit is to assign it 0. To flip a bit is to change the value to 1 if it was 0 and to 0 if it was 1. Each bit has a non-negative position. A bitset \texttt{x} contains \texttt{x.size()} bits, with each bit assigned a unique position in the range \texttt{[0, x.size())}. The bit at position 0 is called the least significant bit and the bit at position \texttt{size() - 1} is the most significant bit. When converting an instance of \texttt{dynamic\_bitset} to or from an \texttt{unsigned long n}, the bit at position i of the bitset has the same value as \hbox{\tt (n >> i) \& 1}.''}
+%
+\item
+\texttt{LatNet Builder}, uses Boost for binary vectors and matrices
+(see \texttt{GeneratingMatrix} in NetBuilder, which uses 
+\texttt{typedef boost::dynamic\_bitset}), 
+and NTL for the polynomial arithmetic.  These libraries are in C++. 
+% S.~Vigna told us that \texttt{Fermat}, in C, is very fast. 
+% One can find programs on his web site.
+Note that the binary matrices $\bC_1,\dots,\bC_s$ used in \texttt{F2LinearGen} 
+play the same role as the generating matrices in NetBuilder.  
+\end{enumerate}
+
+

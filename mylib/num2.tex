@@ -52,7 +52,7 @@ double num2_Combination (int n, int s);
   \tab Calculates the natural logarithm of the gamma function  $\Gamma(x)$
    at {\tt x}. Our {\tt num2\_LnGamma} gives 16 decimal digits
    of precision, but is implemented only for $x>0$.
-   The function {\tt lgamma} is from the {\tt ISO C99} standard math library.
+   The function {\tt lgamma} is from the standard math library \texttt{math.h}.
   \endtab
 \code
 
@@ -70,7 +70,7 @@ double num2_Digamma (double x);
 #endif
 \endcode
   \tab Returns an approximation of {\tt log}$(1 + x)$ which is accurate for small $x$. 
-	The function {\tt log1p} is from the {\tt ISO C99} standard math library.
+	The function {\tt log1p} is from the standard math library \texttt{math.h}.
   \endtab
 \code
 

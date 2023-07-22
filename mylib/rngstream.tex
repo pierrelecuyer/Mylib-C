@@ -12,6 +12,9 @@ The default initial seed of the first stream is
 $(12345, 12345, 12345, 12345, 12345, 12345)$,
 and the seeds of the successive streams are spaced by $2^{127}$ steps.
 Substreams are not implemented here.
+Note that we prefer not to use an $\FF_2$-linear generator here because 
+we sometimes use this module (e.g., in \texttt{bitvector} and in the 
+\texttt{F2LinearGen} software) to generate random binary vectors and matrices. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%

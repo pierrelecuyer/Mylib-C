@@ -47,6 +47,7 @@ typedef int lebool;
 \endcode
   \tab Defines the boolean type \texttt{lebool}, whose only possible values are
   {\tt TRUE} and {\tt FALSE}.
+ \pierre{We may want to deprecate this one and use the type \texttt{bool} from \texttt{stdbool.h} instead.}
  \endtab
 \code
 
@@ -62,12 +63,11 @@ typedef int lebool;
 \endcode
   \tab  Define this macro if the GNU multi-precision package GMP
   is available.  GMP is a portable library written in C for arbitrary
-  precision arithmetic on integers, rational numbers, and floating-point
-  numbers. See the Free Software Foundation web site at
-  \url{http://www.gnu.org/software/gmp/manual}. A few random number
-  generators in library TestU01 use arbitrary large integers, and they
-  have been implemented with GMP functions. If one wants to use GMP, the
-  GMP header file (\texttt{gmp.h}) must be in the  search path 
+  precision arithmetic on integers, rational numbers, and floating-point numbers. 
+	See \url{http://www.gnu.org/software/gmp/manual}. 
+%	A few random number generators in library TestU01 use arbitrary large integers, and they
+%  have been implemented with GMP functions. 
+	If one wants to use GMP, the GMP header file (\texttt{gmp.h}) must be in the  search path 
   of the C compiler for included files, and the GMP library must be 
   linked to create executable programs.
  \endtab

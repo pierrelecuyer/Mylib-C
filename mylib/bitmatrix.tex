@@ -6,7 +6,7 @@ More specifically, each matrix has {\tt r} rows and {\tt t} columns,
 and each entry is an {\tt b}-bit binary vector.
 By taking {\tt t=1}, we get an ordinary binary matrix of {\tt r} rows and
 {\tt b} columns of bits.
-The more general for with ${\tt t} > 1$ is very convenient for the analysis of
+The more general form with ${\tt t} > 1$ is very convenient for the analysis of
 equidistribution properties of $\FF_2$-linear random number generators
 \cite{rLEC05a,rLEC09a,rPAN04t}.
 
@@ -206,7 +206,7 @@ void bitmatrix_powerOfTwo (bitmatrix_matrix *m1, bitmatrix_matrix *m2,
 \endcode
 \tab
 Raises binary matrix {\tt m2} to the power $2^{\tt e}$ and puts the results in {\tt m1}.
-We get ${\tt m1} = {\tt m2}^{2^{e}}$.
+We get ${\tt m1} = ({\tt m2})^{2^{e}}$.
 \endtab
 
 \code\hide
