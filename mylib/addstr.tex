@@ -32,6 +32,9 @@ what is appended.
 \bigskip\hrule
 \code\hide
 /*  addstr.h  for ANSI C  */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef ADDSTR_H
 #define ADDSTR_H
 \endhide
@@ -81,6 +84,9 @@ void  addstr_array_double (char *to, const char *add, int high, double val[]);
 
 void  addstr_array_char (char *to, const char *add, int high, char val[]);
 \hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode
 

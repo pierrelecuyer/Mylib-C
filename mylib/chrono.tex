@@ -61,6 +61,9 @@ function {\tt times} to get the CPU time used by a program.
 \iffalse
 /* chrono.h for ANSI C */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef CHRONO_H
 #define CHRONO_H 
 #include "gdef.h"
@@ -146,5 +149,8 @@ void chrono_Write (chrono_Chrono * C, chrono_TimeFormat Unit);
  \endtab
 \code
 \iffalse
+#endif
+#ifdef __cplusplus
+}
 #endif
 \fi\endcode

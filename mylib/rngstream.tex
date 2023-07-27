@@ -22,6 +22,9 @@ we sometimes use this module (e.g., in \texttt{bitvector} and in the
 
 \code\hide
 /* rngstream.h for ANSI C */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef RNGSTREAM_H
 #define RNGSTREAM_H
 \endhide
@@ -132,6 +135,9 @@ int rngstream_RandInt (rngstream g, int i, int j);
  \endtab
 \code\hide
 
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide
 \endcode

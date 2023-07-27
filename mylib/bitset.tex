@@ -17,6 +17,9 @@ to the \texttt{uint64\_t} variable.
 
 \code\hide
 /* bitset.h  for ANSI C */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef BITSET_H
 #define BITSET_H
 #include "gdef.h"
@@ -178,5 +181,8 @@ void bitset_Write (char *desc, bitset_BitSet z, int b);
   This corresponds to the {\tt b} first elements of {\tt z}.
  \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode

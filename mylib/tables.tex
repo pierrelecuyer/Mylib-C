@@ -27,6 +27,9 @@ to one table entry, and eventually deletes the table:
 
 \code\hide
 /* tables.h for ANSI C */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef TABLES_H
 #define TABLES_H
 \endhide
@@ -164,6 +167,9 @@ long tables_HashPrime32 (long n, double load);
   \tab Same as \texttt{tables\_HashPrime}, but with 32-bit integers.
  \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide
 \endcode

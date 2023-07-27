@@ -13,6 +13,9 @@ equidistribution properties of $\FF_2$-linear random number generators
 \bigskip\hrule
 
 \code\hide
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef BITMATRIX_H
 #define BITMATRIX_H
 \endhide
@@ -210,5 +213,8 @@ We get ${\tt m1} = ({\tt m2})^{2^{e}}$.
 \endtab
 
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode

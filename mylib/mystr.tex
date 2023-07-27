@@ -6,6 +6,9 @@ This module offers some tools for the manipulation of character strings.
 \code\iffalse
 /* mystr.h for ANSI C */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef MYSTR_H
 #define MYSTR_H
 \fi
@@ -68,5 +71,8 @@ void mystr_Position (char Substring[], char Source[], unsigned int at,
  occurence in {\tt pos}.
  \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode

@@ -10,6 +10,9 @@ These functions are more involved than those provided by {\tt num}.
 \code\hide
 /* num2.h for ANSI C */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef NUM2_H
 #define NUM2_H
 \endhide
@@ -133,6 +136,9 @@ double num2_BesselK025 (double x);
   $0.5\times 10^{-6}$ for $x > 10^{-300}$.
 \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode
 

@@ -13,6 +13,10 @@ If the required length is not a multiple of 64, the unused bits are simply set t
 \bigskip\hrule
 
 \code\hide
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef BITVECTOR_H
 #define BITVECTOR_H
 \endhide
@@ -286,6 +290,9 @@ Fills the vector {\tt v} with random bits.
 		We may prefer to use a 64-bit RNGs.}
  \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode
 

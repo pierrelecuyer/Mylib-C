@@ -8,6 +8,9 @@ manipulate numbers represented in different forms.
 \code\hide
 /* num.h for ANSI C */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef NUM_H
 #define NUM_H
 \endhide
@@ -271,5 +274,8 @@ lebool num_isMersennePrime (int e);
  \tab  Returns \texttt{TRUE} iff $2^e-1$ is a Mersenne prime for $e \le 110503$.
 \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode

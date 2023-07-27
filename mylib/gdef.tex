@@ -21,6 +21,9 @@ This module also contains functions to test near equality between numbers repres
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \code\hide
 /* gdef.h  for ANSI C */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef GDEF_H
 #define GDEF_H
 
@@ -130,6 +133,9 @@ void gdef_WriteHostName (void);
   \endtab
 \hide
 \code
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endcode
 \endhide

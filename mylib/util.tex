@@ -11,6 +11,9 @@ The module also contains safe prototype functions to open and close files.
 
 \code\hide
 /* util.h  for ANSI C */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef UTIL_H
 #define UTIL_H
 \endhide
@@ -225,5 +228,8 @@ void * util_Free (void *p);
    {\tt util\_Calloc} or {\tt util\_Realloc}. Always returns a {\tt NULL} pointer.
  \endtab
 \code\hide
+#endif
+#ifdef __cplusplus
+}
 #endif
 \endhide\endcode
